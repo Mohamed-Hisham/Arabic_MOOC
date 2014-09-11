@@ -1,0 +1,26 @@
+%h2 User Sign up
+= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |user|
+  = devise_error_messages!
+
+  .col-md-5.col-xs-6
+    = user.text_field :first_name, placeholder: "First Name"
+    = user.text_field :last_name, placeholder: "Last Name"
+    = user.text_field :occupation, placeholder: "CHANGE ME TO SELECT"
+  %div
+    = user.label :email
+    %br/
+    = user.email_field :email, autofocus: true
+  %div
+    = user.label :password
+    - if @validatable
+      %i
+        (#{@minimum_password_length} characters minimum)
+    %br/
+    = user.password_field :password, autocomplete: "off"
+  %div
+    = user.label :password_confirmation
+    %br/
+    = user.password_field :password_confirmation, autocomplete: "off"
+
+  %div= user.submit "Sign up"
+= render "users/shared/links"

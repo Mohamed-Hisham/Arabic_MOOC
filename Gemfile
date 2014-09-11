@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.5'
 
 gem 'mongoid', '~> 4.0.0'
+gem 'mongoid-enum', '~> 0.2.0'
 
 gem 'haml-rails', '~> 0.5.3'
 gem 'less-rails', '~> 2.5.0'
