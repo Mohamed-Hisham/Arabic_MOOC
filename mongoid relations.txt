@@ -1,0 +1,11 @@
+1-1
+has_one
+belongs_to
+
+1-N
+belongs_to
+has_many
+
+N-N
+has_and_belongs_to_many
+has_and_belongs_to_many

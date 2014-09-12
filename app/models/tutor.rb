@@ -1,5 +1,8 @@
 class Tutor
   include Mongoid::Document
+  include Mongoid::Slug
+  include Mongoid::Enum
+  include Mongo::Voter
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -37,12 +40,27 @@ class Tutor
   ## Database Fields
   field :first_name,              type: String, default: ""
   field :last_name,               type: String, default: ""
-  field :occupation,              type: String, default: ""
+  field :user_name,               type: String, default: ""
   field :work_place,              type: String, default: ""
   field :phone_number,            type: Integer
   field :dob,                     type: Date
   field :gender,                  type: String
   field :about_me
   field :interest
-  # field :avatar,                  type: String
+  enum :occupations, [:student, :lecturer, :employee, :other]
+  field :avatar
+  mount_uploader :avatar,  AvatarUploader
+
+  slug :user_name
+  rateable range: (1..5), raters: User
+
+  # Relations
+  has_many :notes
+  has_many :courses
+  has_many :answers
+
+  # Validations
+  validates_presence_of :first_name, :last_name, :user_name, :occupations
+  validates :phone_number, format: { with: /\A(77|78|79)\d{7}\z/, message: "Only 77, 78, 79 then 7 digits" }
+  validates :email, :user_name, uniqueness: true
 end

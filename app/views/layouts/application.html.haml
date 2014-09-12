@@ -1,10 +1,16 @@
 !!!
-%html
+%html{lang: I18n.locale, dir: "#{html_direction}"}
   %head
     %title VideoBrens
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    "application-#{I18n.locale}", media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = favicon_link_tag 'favicon.ico'
     = csrf_meta_tags
-  %body.container
-    .row
+  %body
+    .container-fluid
+      = render "layouts/header"
+      = render "layouts/flash_messages"
       = yield
+
+    .footer
+      = render "layouts/footer"

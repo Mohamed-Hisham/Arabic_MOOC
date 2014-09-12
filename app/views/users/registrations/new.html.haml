@@ -2,7 +2,7 @@
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |user|
   = devise_error_messages!
 
-  .col-md-5.col-xs-6
+  %div
     = user.text_field :first_name, placeholder: "First Name"
     = user.text_field :last_name, placeholder: "Last Name"
     = user.text_field :occupation, placeholder: "CHANGE ME TO SELECT"

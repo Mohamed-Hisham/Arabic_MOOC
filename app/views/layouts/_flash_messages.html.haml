@@ -1,0 +1,5 @@
+- flash.each do |type, message|
+  %div{class: "#{twitterized_type(type)} alert-dismissable fade in"}
+    %button{class: "close", 'data-dismiss' => "alert", 'aria-hidden'=> "true"}
+      %i.fa.fa-times
+    = message

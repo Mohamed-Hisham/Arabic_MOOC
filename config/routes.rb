@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  filter :locale
+
   devise_for :tutors
   devise_for :admins
   devise_for :users
 
+  root 'home#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

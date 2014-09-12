@@ -1,6 +1,8 @@
 class User
   include Mongoid::Document
   include Mongoid::Enum
+  include Mongoid::Slug
+  include Mongo::Voter
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -35,16 +37,31 @@ class User
   # field :unlock_token,    type: String # Only if unlock strategy is :email or :both
   # field :locked_at,       type: Time
 
-  enum :occupations, [:student, :lecturer, :employee, :other]
-  enum :gender, [:female, :male]
 
   ## Database Fields
   field :first_name,              type: String, default: ""
   field :last_name,               type: String, default: ""
-  field :occupation,              type: String, default: ""
+  field :user_name,               type: String, default: ""
   field :work_place,              type: String, default: ""
   field :dob,                     type: Date
-  field :gender,                  type: String
+  enum :gender, [:female, :male]
+  field :avatar
+  mount_uploader :avatar,  AvatarUploader
 
-  # field :avatar,                  type: String
+  slug :user_name
+
+  # Relations
+  has_and_belongs_to_many :course
+  has_many :notes
+  has_many :complaints
+  has_many :questions
+  has_many :answers
+
+  # Validations
+  validates_presence_of :first_name, :last_name, :user_name
+  validates :email, :user_name, uniqueness: true
+  # Functions
+  def name
+    return "#{self.first_name} #{self.last_name}"
+  end
 end

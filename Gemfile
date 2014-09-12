@@ -3,9 +3,13 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
-
+gem 'rails-i18n', '~> 4.0.3'
+# Database ORM for Mongodb
 gem 'mongoid', '~> 4.0.0'
 gem 'mongoid-enum', '~> 0.2.0'
+gem 'mongoid_slug', '~> 3.2.1'
+gem 'mongoid_rateable', github: 'PerfectMemory/mongoid_rateable', branch: 'master'
+gem 'voteable_mongo', '~> 0.9.3'
 
 gem 'haml-rails', '~> 0.5.3'
 gem 'less-rails', '~> 2.5.0'
@@ -31,7 +35,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'devise', '~> 3.3.0'
 
 # Uploads
-gem 'carrierwave', '~> 0.10.0'
+gem 'carrierwave-mongoid', '~> 0.7.1', :require => 'carrierwave/mongoid'
+gem 'carrierwave-video', '~> 0.5.6'
 gem 'mini_magick', '~> 3.8.0'
 
 gem 'dynamic_form', '~> 1.1.4'
@@ -50,6 +55,7 @@ group :development do
   gem 'pry-rails'
   gem 'meta_request', '~> 0.3.4'
   gem 'zeus', '~> 0.15.1'
+  gem 'rails-erd', '~> 1.1.0'
 end
 
 group :development, :test do
