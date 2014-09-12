@@ -1,0 +1,27 @@
+= form_for [:admin, @course], html: {class: "form-horizontal", method: :post} do |c|
+  - if @course.errors.any?
+    %ul
+      - @course.errors.full_messages.each do |e|
+        %li= e
+
+  .form-group
+    = c.label "Course Title", class: "col-sm-2 control-label"
+    .col-sm-10
+      = c.text_field :title, placeholder: "Course Title", class: "form-control"
+  .form-group
+    = c.label "Course Description", class: "col-sm-2 control-label"
+    .col-sm-10
+      = c.text_field :description, placeholder: "Course Description", class: "form-control"
+  .form-group
+    = c.label "Tags", class: "col-sm-2 control-label"
+    .col-sm-10
+      -# = c.text_field :tags, placeholder: "Tags", class: "form-control"
+
+  .form-group
+    = c.label "Course Level", class: "col-sm-2 control-label"
+    .col-sm-10
+      = c.select :level, Course::LEVEL, class: "form-control", include_blank: true
+
+  .form-group
+    .col-sm-10.col-sm-offest-2
+      = c.submit "Create", class: "btn btn-default"

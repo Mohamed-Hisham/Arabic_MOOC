@@ -1,0 +1,32 @@
+%h3 Course #{@course.title}
+
+= @course.description
+%br/
+= @course.level
+
+-unless @course.tags.nil?
+  - @course.tags.each do |t|
+    = t
+
+= link_to "Delete Course", admin_course_path, method: :delete, data: {confirm: "Do you want to delete?"}
+
+%h3 Sections
+
+-unless @sections.nil?
+  %table{class: "table table-condensed"}
+    - @sections.each do |section|
+      %tr{class: "active"}
+        %td= section.title
+        %td= link_to 'Edit', edit_admin_course_section_path(@course, section)
+        %td= link_to 'Destroy', admin_course_section_path(@course, section), :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to "Add Video", new_admin_course_section_video_path(@course, section)
+
+      %table{class: "table table-condensed table-hover table-striped"}
+        - unless section.videos.nil?
+          - section.videos.each do |video|
+            %tr
+              %td
+                = link_to video.title, admin_course_section_video_path(@course, section, video)
+
+
+= link_to 'New Section', new_admin_course_section_path(@course)

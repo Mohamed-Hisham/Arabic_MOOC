@@ -1,0 +1,13 @@
+= form_for [:admin, @course, @section, @video], html: {class: "form-horizontal"} do |f|
+  - if @video.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@video.errors.count, "error")} prohibited this video from being saved:"
+      %ul
+        - @video.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    .col-sm-10
+      = f.text_field :title, class: "form-control", placeholder: "Video Title"
+      = f.file_field :video_file
+  .actions
+    = f.submit 'Upload'

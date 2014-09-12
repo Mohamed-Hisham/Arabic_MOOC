@@ -1,9 +1,20 @@
 Rails.application.routes.draw do
-  filter :locale
+  filter :locale,   :exclude => %r(^admins/)
 
   devise_for :tutors
   devise_for :admins
   devise_for :users
+
+  resources :admins, only: :show
+
+  namespace :admin do
+    # get 'courses_list' => 'courses#course_list', as: :all_courses, controller: "admins/courses"
+    resources :courses do
+      resources :sections do
+        resources :videos
+      end
+    end
+  end
 
   root 'home#index'
   # The priority is based upon order of creation: first created -> highest priority.

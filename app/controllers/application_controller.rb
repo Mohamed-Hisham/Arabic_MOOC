@@ -9,7 +9,14 @@ class ApplicationController < ActionController::Base
   end
 
   # # remove the locale from url if the default is chosen already
-  # def default_url_options(options={})
-  #   (I18n.locale.to_sym.eql?(I18n.default_locale.to_sym) ? {} : {locale: I18n.locale})
-  # end
+  def default_url_options(options={})
+    (I18n.locale.to_sym.eql?(I18n.default_locale.to_sym) ? {} : {locale: I18n.locale})
+  end
+
+  def after_sign_in_path_for(resource)
+    case resource.class.name.underscore.to_sym
+    when :admin
+      admin_path(current_admin)
+    end
+  end
 end

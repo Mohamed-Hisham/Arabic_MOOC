@@ -1,0 +1,10 @@
+%h3 All courses
+
+= link_to "Create Course", new_admin_course_path, class: "btn btn-success"
+
+- if @courses.any?
+  - @courses.each do |c|
+    = link_to c.title, admin_course_path(c)
+
+- else
+  No courses !

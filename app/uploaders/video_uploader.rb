@@ -18,7 +18,7 @@ class VideoUploader < CarrierWave::Uploader::Base
   end
   # process encode_video: [:mp4, callbacks: { after_transcode: :set_success } ]
   # process encode_video: [:webm, callbacks: { after_transcode: :set_success } ]
-  process :encode
+  # process :encode
   process :set_content_type
 
   def encode

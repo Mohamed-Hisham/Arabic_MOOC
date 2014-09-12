@@ -1,0 +1,22 @@
+%nav.navbar.navbar-default{:role => "navigation"}
+  .container-fluid
+    / Brand and toggle get grouped for better mobile display
+    .navbar-header
+      %button.navbar-toggle.collapsed{"data-target" => "#bs-example-navbar-collapse-1", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{:href => "#"} Brand
+    / Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        %li.active
+          = link_to "View Courses", admin_courses_path
+      %ul.nav.navbar-nav.navbar-right
+        - if (I18n.locale.to_sym == :ar)
+          = link_to 'English', url_for(request.parameters.merge(locale: 'en')), class: "btn btn-sm btn-danger footer-btn"
+        - else
+          = link_to 'ﻋﺮﺑﻰ', url_for(request.parameters.merge(locale: 'ar')), class: "btn btn-sm btn-danger footer-btn"
+    / /.navbar-collapse
+  / /.container-fluid

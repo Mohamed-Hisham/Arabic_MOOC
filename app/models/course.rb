@@ -9,7 +9,7 @@ class Course
   field :length,        type: Time
 
   rateable range: (1..5), raters: User
-  enum :level, [:beginner, :mid, :pro]
+  enum :level, [:Beginner, :Mid, :Pro]
 
   # Relations
   has_and_belongs_to_many :users
