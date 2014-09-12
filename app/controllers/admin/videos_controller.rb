@@ -1,4 +1,4 @@
-class Admin::VideosController < ApplicationController
+class Admin::VideosController < AdminsController
   before_action :set_admin_video, only: [:show, :edit, :update, :destroy]
   before_action :get_course
   before_action :get_section

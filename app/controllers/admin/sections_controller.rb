@@ -1,4 +1,4 @@
-class Admin::SectionsController < ApplicationController
+class Admin::SectionsController < AdminsController
   before_action :set_section, only: [:edit, :update, :destroy]
   before_action :set_course
 
