@@ -10,7 +10,7 @@ class Answer
 
   # Relations
   belongs_to :question
-  belongs_to :answerer , class_name: User || Tutor
+  belongs_to :answerer , class_name: "Tutor" || "User"
 
   # Validations
   validates_presence_of :description

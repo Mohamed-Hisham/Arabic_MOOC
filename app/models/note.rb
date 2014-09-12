@@ -7,7 +7,7 @@ class Note
 
   # Relations
   belongs_to :video
-  has_one :author, class_name: Tutor || User
+  has_one :author, class_name: "Tutor" || "User"
 
   validates_presence_of :description
 end

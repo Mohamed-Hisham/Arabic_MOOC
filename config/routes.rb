@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         resources :videos
       end
     end
+    resources :tutors
   end
 
   root 'home#index'

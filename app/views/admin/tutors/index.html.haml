@@ -1,0 +1,13 @@
+%h1 List of tutors
+
+- unless @tutors.nil?
+  %table
+    - @tutors.each do |tutor|
+      %tr
+        %td= link_to tutor.user_name, admin_tutor_path(tutor)
+        %td= link_to 'Edit', edit_admin_tutor_path(tutor)
+        %td= link_to 'Destroy', admin_tutor_path(tutor), :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Tutor', new_admin_tutor_path

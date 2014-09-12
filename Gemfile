@@ -15,6 +15,8 @@ gem 'haml-rails', '~> 0.5.3'
 gem 'less-rails', '~> 2.5.0'
 gem 'twitter-bootstrap-rails', '~> 3.2.0'
 gem 'font-awesome-rails', '~> 4.2.0.0'
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.1'
 

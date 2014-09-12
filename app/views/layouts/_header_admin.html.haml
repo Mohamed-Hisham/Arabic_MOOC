@@ -12,7 +12,9 @@
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
         %li.active
-          = link_to "View Courses", admin_courses_path
+          = link_to "Courses", admin_courses_path
+        %li
+          = link_to "Tutors", admin_tutors_path
       %ul.nav.navbar-nav.navbar-right
         - if (I18n.locale.to_sym == :ar)
           = link_to 'English', url_for(request.parameters.merge(locale: 'en')), class: "btn btn-sm btn-danger footer-btn"
