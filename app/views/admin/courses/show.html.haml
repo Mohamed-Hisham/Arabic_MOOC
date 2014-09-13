@@ -6,6 +6,8 @@
 %br/
 = humanize_secs @course.length
 
+= @course.tutor.name
+
 -unless @course.tags.nil?
   - @course.tags.each do |t|
     = t

@@ -13,6 +13,9 @@
     .col-sm-10
       = c.text_field :description, placeholder: "Course Description", class: "form-control"
   .form-group
+    = c.label "Tutor", class: "col-sm-2 control-label"
+    = c.select :tutor , @tutors.map {|t| [t.name ,t.id] } , class: "form-control"
+  .form-group
     = c.label "Tags", class: "col-sm-2 control-label"
     .col-sm-10
       -# = c.text_field :tags, placeholder: "Tags", class: "form-control"
@@ -20,8 +23,7 @@
   .form-group
     = c.label "Course Level", class: "col-sm-2 control-label"
     .col-sm-10
-      = c.select :level, Course::LEVEL, class: "form-control", include_blank: true
-
+      = c.select :level, Course::LEVEL, class: "form-control"
   .form-group
     .col-sm-10.col-sm-offest-2
       = c.submit "Create", class: "btn btn-default"
