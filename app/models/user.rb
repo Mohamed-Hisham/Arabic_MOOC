@@ -3,6 +3,7 @@ class User
   include Mongoid::Enum
   include Mongoid::Slug
   include Mongo::Voter
+  include Mongoid::Paranoia
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -45,13 +46,17 @@ class User
   field :work_place,              type: String, default: ""
   field :dob,                     type: Date
   enum :gender, [:female, :male]
+  enum :occupation, [:Student, :Employee, :Other]
   field :avatar
   mount_uploader :avatar,  AvatarUploader
 
-  slug :user_name
+  # Slug + Scope
+
+  slug :user_name, scope: where(deleted_at: nil)
+
 
   # Relations
-  has_and_belongs_to_many :course
+  has_and_belongs_to_many :courses
   has_many :notes
   has_many :complaints
   has_many :questions

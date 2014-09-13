@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
     case resource.class.name.underscore.to_sym
     when :admin
       admin_path(current_admin)
+    when :user
+      root_path
     end
   end
 end

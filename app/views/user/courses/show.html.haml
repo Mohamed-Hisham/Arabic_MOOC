@@ -1,0 +1,27 @@
+%h3 Course: #{@course.title} #{humanize_secs @course.length} by
+= link_to @course.tutor.name, tutor_path(@course.tutor)
+.row
+  .col-md-7
+    %video{:width => 320, :height => 240, :controls => true, id: "video_id"}
+      %source{:src => @first_video.video_file.url}
+
+    -unless @sections.nil?
+      - @sections.each do |section|
+        %h4= section.title
+        - unless section.videos.nil?
+          - section.videos.each do |video|
+            %tr
+              %td
+                = link_to video.title, onClick: "choose_video"
+              - unless video.duration.nil?
+                %td
+                  = humanize_secs video.duration
+  .col-md-5
+    %h3 Notes
+  %br/
+  = link_to 'Back', user_courses_path
+
+%footer
+  :javascript
+    // using jQuery
+    $('#video_id').mediaelementplayer(/* Options */);

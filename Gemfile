@@ -4,12 +4,14 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
 gem 'rails-i18n', '~> 4.0.3'
+
 # Database ORM for Mongodb
 gem 'mongoid', '~> 4.0.0'
 gem 'mongoid-enum', '~> 0.2.0'
 gem 'mongoid_slug', '~> 3.2.1'
 gem 'mongoid_rateable', github: 'PerfectMemory/mongoid_rateable', branch: 'master'
 gem 'voteable_mongo', '~> 0.9.3'
+gem 'mongoid_paranoia', '~> 0.1.2'
 
 gem 'haml-rails', '~> 0.5.3'
 gem 'less-rails', '~> 2.5.0'
@@ -20,7 +22,9 @@ gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.1'
 
+# Video
 gem 'mediainfo', '~> 0.7.2'
+gem 'mediaelement_rails', '~> 0.8.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

@@ -3,9 +3,10 @@ Rails.application.routes.draw do
 
   devise_for :tutors
   devise_for :admins
-  devise_for :users
-
+  devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions"}
   resources :admins, only: :show
+  resources :users, only: [:show, :edit, :update, :destroy]
+  resources :tutors
 
   namespace :admin do
     # get 'courses_list' => 'courses#course_list', as: :all_courses, controller: "admins/courses"
@@ -15,6 +16,14 @@ Rails.application.routes.draw do
       end
     end
     resources :tutors
+  end
+
+  namespace :user do
+    resources :courses, only: [:index, :show] do
+      resources :sections do
+        resources :videos
+      end
+    end
   end
 
   root 'home#index'
