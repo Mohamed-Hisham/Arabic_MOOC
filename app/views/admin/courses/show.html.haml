@@ -3,6 +3,7 @@
 = @course.description
 %br/
 = @course.level
+= @course.tutor.name
 
 -unless @course.tags.nil?
   - @course.tags.each do |t|

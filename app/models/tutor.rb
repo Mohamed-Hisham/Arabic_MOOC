@@ -54,6 +54,8 @@ class Tutor
   slug :user_name
   rateable range: (1..5), raters: User
 
+
+
   # Relations
   has_many :notes
   has_many :courses
@@ -63,4 +65,11 @@ class Tutor
   validates_presence_of :first_name, :last_name, :user_name, :occupation
   validates :phone_number, format: { with: /\A(77|78|79)\d{7}\z/, message: "Only 77, 78, 79 then 7 digits" }
   validates :email, :user_name, uniqueness: true
+
+
+  #Functions
+  def name
+    return "#{self.first_name} #{self.last_name}"
+  end
+
 end
