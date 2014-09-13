@@ -1,4 +1,7 @@
 %video{:width => 320, :height => 240, :controls => true}
   %source{:src => @video.video_file.url}
 
+- unless @video.duration.nil?
+  %h3= humanize_secs @video.duration
+
 = link_to 'back to course', admin_course_path(@course)

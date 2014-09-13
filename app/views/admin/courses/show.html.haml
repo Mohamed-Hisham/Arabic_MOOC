@@ -3,6 +3,8 @@
 = @course.description
 %br/
 = @course.level
+%br/
+= humanize_secs @course.length
 
 -unless @course.tags.nil?
   - @course.tags.each do |t|
@@ -13,8 +15,8 @@
 %h3 Sections
 
 -unless @sections.nil?
-  %table{class: "table table-condensed"}
-    - @sections.each do |section|
+  - @sections.each do |section|
+    %table{class: "table table-condensed"}
       %tr{class: "active"}
         %td= section.title
         %td= link_to 'Edit', edit_admin_course_section_path(@course, section)
@@ -27,6 +29,9 @@
             %tr
               %td
                 = link_to video.title, admin_course_section_video_path(@course, section, video)
+              - unless video.duration.nil?
+                %td
+                  = humanize_secs video.duration
 
 
 = link_to 'New Section', new_admin_course_section_path(@course)

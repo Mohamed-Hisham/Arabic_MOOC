@@ -4,3 +4,5 @@ jQuery ->
   $("#datetimepicker").datetimepicker
     pickTime: false
     minDate: "1/1/1930"
+    changeMonth: true
+    changeYear: true

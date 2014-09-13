@@ -16,6 +16,7 @@ class Admin::CoursesController < AdminsController
   # GET /courses/new
   def new
     @course = Course.new
+    @tutors = Tutor.all.to_a
   end
 
   # GET /courses/1/edit

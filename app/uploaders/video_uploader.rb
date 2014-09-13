@@ -20,11 +20,11 @@ class VideoUploader < CarrierWave::Uploader::Base
   # process encode_video: [:webm, callbacks: { after_transcode: :set_success } ]
   # process :encode
   process :set_content_type
+  process :get_metadata
 
-  def encode
-    encode_video(:mp4) do |movie, params|
-      model.duration = movie.duration
-    end
+  def get_metadata
+    video_info = Mediainfo.new self.file.file
+    model.duration = video_info.duration/1000
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

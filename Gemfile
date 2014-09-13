@@ -20,6 +20,8 @@ gem 'bootstrap3-datetimepicker-rails', '~> 3.1.3'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.1'
 
+gem 'mediainfo', '~> 0.7.2'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes

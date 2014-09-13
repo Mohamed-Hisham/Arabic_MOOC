@@ -2,7 +2,7 @@ class Video
   include Mongoid::Document
 
   field :title,        type: String
-  field :duration,     type: Time
+  field :duration,     type: Integer
   field :video_file
 
   mount_uploader :video_file, VideoUploader

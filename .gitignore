@@ -15,7 +15,7 @@ pickle-email-*.html
 /config/mongoid.yml
 
 config/initializers/secret_token.rb
-
+/public/uploads/
 ## Environment normalisation:
 /.bundle
 /vendor/bundle
