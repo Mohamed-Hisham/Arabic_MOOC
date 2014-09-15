@@ -25,7 +25,7 @@ class User::NotesController < UsersController
   def create
     @note = @video.notes.new(note_params)
     @note.author = current_user
-
+    @note.author_type = "User"
 
     respond_to do |format|
       if @note.save
@@ -33,7 +33,7 @@ class User::NotesController < UsersController
         @synmark = @note.synmarks.create(start_time: @starttime, end_time: @endtime)
         format.html { redirect_to user_course_section_video_path(@course, @section, @video), notice: 'Note was successfully created.' }
       else
-        format.html { render :new }
+        format.html { redirect_to user_course_section_video_path(@course, @section, @video), alert: "Note was not created. Check again" }
       end
     end
   end

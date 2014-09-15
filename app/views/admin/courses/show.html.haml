@@ -34,6 +34,17 @@
               - unless video.duration.nil?
                 %td
                   = humanize_secs video.duration
+              %td
+                = form_tag guest_can_view_admin_course_section_video_path(@course, section, video), method: :post, class: "form-inline" do
+                  .checkbox
+                    %label
+                      - if video.viewed_by_guest == true
+                        = check_box_tag "video[viewed_by_guest]", {},{checked: "checked"}
+                      - else
+                        = check_box_tag "video[viewed_by_guest]"
+                      Enable for Guests?
+                  .form-group
+                    = submit_tag "submit"
 
 
 = link_to 'New Section', new_admin_course_section_path(@course)

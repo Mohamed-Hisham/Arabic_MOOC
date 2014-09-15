@@ -19,9 +19,11 @@
         - elsif tutor_signed_in?
           %li.active
             %a{:href => tutor_courses_path(current_tutor)} My Courses
+        - else
           %li
-            %a{:href => "#"} About Us
-
+            %a{:href => courses_path} Courses
+        %li
+          %a{:href => "#"} About Us
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

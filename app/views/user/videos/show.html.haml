@@ -61,17 +61,21 @@
 
     - unless @notes.nil?
       - @notes.each do |note|
-        .panel.panel-default
+        %div{class: note_color(note)}
           .panel-heading
             %h3{class: "panel-title"}
               - unless note.title.empty?
                 = note.title
               - else
                 Note
-            = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
-              %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
+              = note_author(note)
+            - if note.author_id == current_user.id
+              = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
+                %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
           .panel-body
             = note.description
+            - unless note.attachment.nil?
+              = link_to "Download File", note.attachment.url
             %label From: #{humanize_secs note.synmarks.first.start_time}
             %label To: #{humanize_secs note.synmarks.first.end_time}
 

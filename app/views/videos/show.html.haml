@@ -1,0 +1,46 @@
+%h3 Course: #{@course.title} #{humanize_secs @course.length} by
+= link_to @course.tutor.name, tutor_path(@course.tutor)
+= link_to 'Back', user_courses_path
+.row
+  .col-md-7
+    %video{:width => 320, :height => 240, :controls => true, id: "video_id"}
+      %source{:src => @first_video.video_file.url}
+
+    -unless @sections.nil?
+      %table{class:"table table-condensed table-hover table-striped"}
+        - @sections.each do |section|
+          %h4= section.title
+          - unless section.videos.nil?
+            - section.videos.each do |video|
+              %tr
+                %td
+                  - if video.viewed_by_guest?
+                    = link_to video.title, user_course_section_video_path(@course, section, video)
+                  - else
+                    = video.title
+                - unless video.duration.nil?
+                  %td
+                    = humanize_secs video.duration
+  .col-md-5
+    %h3 Notes
+    - unless @notes.nil?
+      - @notes.each do |note|
+        %div{class: note_color(note)}
+          .panel-heading
+            %h3{class: "panel-title"}
+              - unless note.title.empty?
+                = note.title
+              - else
+                Note
+          .panel-body
+            = note.description
+            %label From: #{humanize_secs note.synmarks.first.start_time}
+            %label To: #{humanize_secs note.synmarks.first.end_time}
+
+    - else
+      No notes!
+
+%footer
+  :javascript
+    // using jQuery
+    $('#video_id').mediaelementplayer(/* Options */);

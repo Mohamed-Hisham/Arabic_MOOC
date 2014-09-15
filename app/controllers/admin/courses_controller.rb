@@ -16,7 +16,7 @@ class Admin::CoursesController < AdminsController
   # GET /courses/new
   def new
     @course = Course.new
-    @tutors = Tutor.all
+    @tutors = Tutor.all.to_a
   end
 
   # GET /courses/1/edit
@@ -26,6 +26,7 @@ class Admin::CoursesController < AdminsController
   # POST /courses
   # POST /courses.json
   def create
+    byebug
     @course = Course.new(course_params)
 
     respond_to do |format|

@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
   filter :locale,   :exclude => %r(^admins/)
 
-  devise_for :tutors, :controllers => {:registrations => "tutors/devise/registrations", :sessions => "tutors/devise/sessions"}
-  devise_for :admins
-  devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions"}
-  resources :admins, only: :show
-  resources :users, only: [:show, :edit, :update, :destroy]
+  # Guest
+  resources :courses, only: :index, as: :courses, controller: "courses" do
+    resources :sections do
+      resources :videos, only: :show
+    end
+  end
 
+  # Tutor
+  devise_for :tutors, :controllers => {:registrations => "tutors/devise/registrations", :sessions => "tutors/devise/sessions"}
   resources :tutors do
     resources :courses, controller: "tutors/courses" do
       resources :sections do
@@ -19,15 +22,25 @@ Rails.application.routes.draw do
     end
   end
 
+  # Admin
+  devise_for :admins
+  resources :admins, only: :show
   namespace :admin do
     resources :courses do
       resources :sections do
-        resources :videos
+        resources :videos do
+          member do
+            post 'guest_can_view'
+          end
+        end
       end
     end
     resources :tutors
   end
 
+  # User
+  devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions"}
+  resources :users, only: [:show, :edit, :update, :destroy]
   namespace :user do
     resources :courses, only: [:index, :show] do
       resources :sections do
