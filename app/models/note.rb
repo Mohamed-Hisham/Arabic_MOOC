@@ -4,6 +4,10 @@ class Note
   # Field
   field :title, type: String
   field :description, type: String
+  field :author_type, type: String
+  field :attachment
+
+  mount_uploader :attachment,  DocumentUploader
 
   # Relations
   belongs_to :video

@@ -26,6 +26,7 @@ class Admin::CoursesController < AdminsController
   # POST /courses
   # POST /courses.json
   def create
+    byebug
     @course = Course.new(course_params)
 
     respond_to do |format|

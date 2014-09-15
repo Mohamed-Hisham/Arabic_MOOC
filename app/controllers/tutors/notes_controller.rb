@@ -19,7 +19,7 @@ class Tutors::NotesController < TutorsController
   def create
     @note = @video.notes.new(note_params)
     @note.author = current_tutor
-
+    @note.author_type = "Tutor"
 
     respond_to do |format|
       if @note.save
@@ -27,7 +27,7 @@ class Tutors::NotesController < TutorsController
         @synmark = @note.synmarks.create(start_time: @starttime, end_time: @endtime)
         format.html { redirect_to tutor_course_section_video_path(@tutor, @course, @section, @video), notice: 'Note was successfully created.' }
       else
-        format.html { render :new }
+        format.html { redirect_to tutor_course_section_video_path(@tutor, @course, @section, @video), alert: "Note was not created. Check again" }
       end
     end
   end
@@ -77,7 +77,7 @@ class Tutors::NotesController < TutorsController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def note_params
-      params[:note].permit(:title, :description)
+      params[:note].permit(:title, :description, :attachment)
     end
 
     def synmark_params

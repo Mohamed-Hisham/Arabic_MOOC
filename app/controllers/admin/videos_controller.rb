@@ -1,5 +1,5 @@
 class Admin::VideosController < AdminsController
-  before_action :set_admin_video, only: [:show, :edit, :update, :destroy]
+  before_action :set_admin_video, only: [:show, :edit, :update, :destroy, :guest_can_view]
   before_action :get_course
   before_action :get_section
 
@@ -54,6 +54,18 @@ class Admin::VideosController < AdminsController
     respond_to do |format|
       format.html { redirect_to admin_videos_url, notice: 'Video was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def guest_can_view
+    @video.viewed_by_guest_status(params[:video][:viewed_by_guest]) unless params[:video].nil?
+    @video.viewed_by_guest_status(false) if params[:video].nil?
+    respond_to do |format|
+      if @video.save
+        format.html { redirect_to admin_course_section_video_path(@course, @section, @video), notice: 'Video was successfully enabled for guest viewing.' }
+      else
+        format.html { redirect_to admin_course_section_video_path(@course, @section, @video), alert: 'There was a problem when enabling a video for guests.' }
+      end
     end
   end
 

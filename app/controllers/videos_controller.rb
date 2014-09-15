@@ -1,4 +1,4 @@
-class User::VideosController < UsersController
+class VideosController < ApplicationController
   before_action :set_video
   before_action :set_section
   before_action :set_course
