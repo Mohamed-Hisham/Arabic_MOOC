@@ -1,7 +1,8 @@
 %h1 Courses List
 
 %table
-
-  - @courses.each do |course|
-    %tr
-      %td= link_to course.title, user_course_section_video_path(course, first_section(course), first_video(course))
+  - unless @courses.nil?
+    - @courses.each do |course|
+      %tr
+        %td= image_tag course.avatar.url
+        %td= link_to course.title, user_course_section_video_path(course, first_section(course), first_video(course))

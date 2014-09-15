@@ -20,5 +20,6 @@
           = link_to 'English', url_for(request.parameters.merge(locale: 'en')), class: "btn btn-sm btn-danger footer-btn"
         - else
           = link_to 'ﻋﺮﺑﻰ', url_for(request.parameters.merge(locale: 'ar')), class: "btn btn-sm btn-danger footer-btn"
+        = link_to "Log out", destroy_admin_session_path, method: :delete
     / /.navbar-collapse
   / /.container-fluid

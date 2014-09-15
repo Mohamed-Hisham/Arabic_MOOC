@@ -11,21 +11,35 @@
     / Collect the nav links, forms, and other content for toggling
     #bs-example-navbar-collapse-1.collapse.navbar-collapse
       %ul.nav.navbar-nav
-        %li.active
-          %a{:href => user_courses_path} Courses
-        %li
-          %a{:href => "#"} Tutors
-        %li
-          %a{:href => "#"} About Us
-      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li.active
+            %a{:href => user_courses_path} Courses
+          %li
+            %a{:href => "#"} Tutors
+        - elsif tutor_signed_in?
+          %li.active
+            %a{:href => tutor_courses_path(current_tutor)} My Courses
+          %li
+            %a{:href => "#"} About Us
 
-        - unless user_signed_in?
+
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li
+            = link_to "Profile", user_path(current_user)
+          %li
+            = link_to "Log out", destroy_user_session_path, method: :delete
+
+        - elsif tutor_signed_in?
+          %li
+            = link_to "Profile", tutor_path(current_tutor)
+          %li
+            = link_to "Log out", destroy_tutor_session_path, method: :delete
+        - elsif !user_signed_in? || !tutor_signed_in?
           = form_tag new_user_session_path, class: "form-inline" do
             .form-group
               = text_field_tag 'user[email]', '',class: "form-control input-sm", placeholder: "Enter Email"
               = password_field_tag 'user[password]', '',class: "form-control input-sm", placeholder: "Enter Password"
               = submit_tag "Sign in", class: "btn btn-sm btn-default"
+            %li
               = link_to "Sign up", new_user_registration_path
-        - else
-          = link_to "Profile", user_path(current_user)
-          = link_to "Log out", destroy_user_session_path, method: :delete

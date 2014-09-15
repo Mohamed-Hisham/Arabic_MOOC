@@ -9,7 +9,9 @@ class Course
   field :description,   type: String
   field :tags,          type: Array
   field :length,        type: Integer
+  field :avatar
 
+  mount_uploader :avatar,  AvatarUploader
   rateable range: (1..5), raters: User
   enum :level, [:Beginner, :Mid, :Pro]
 

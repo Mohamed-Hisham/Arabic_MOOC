@@ -75,3 +75,15 @@
       = user.text_field :work_place, class: "form-control", placeholder: "Work place (e.g. University, Organisation, Company)"
   .form-group
     = user.submit 'Save', class: "btn btn-default"
+
+%footer
+  :javascript
+    $("#imgfile").change(function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });

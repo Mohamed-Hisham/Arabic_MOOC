@@ -1,0 +1,9 @@
+%h3 My Courses
+
+- unless @courses.nil?
+  %table{class: "table table-hover table-condesed table-striped"}
+    - @courses.each do |c|
+      %td= image_tag c.avatar
+      %td= link_to c.title, tutor_course_section_video_path(@tutor, c, first_section(c), first_video(c))
+- else
+  You don't have any courses! :(

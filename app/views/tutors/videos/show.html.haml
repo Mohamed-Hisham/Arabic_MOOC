@@ -1,5 +1,4 @@
-%h3 Course: #{@course.title} #{humanize_secs @course.length} by
-= link_to @course.tutor.name, tutor_path(@course.tutor)
+%h3 Course: #{@course.title} #{humanize_secs @course.length}
 = link_to 'Back', user_courses_path
 .row
   .col-md-7
@@ -13,7 +12,7 @@
           - section.videos.each do |video|
             %tr
               %td
-                = link_to video.title, user_course_section_video_path(@course, section, video)
+                = link_to video.title, tutor_course_section_video_path(@tutor, @course, section, video)
               - unless video.duration.nil?
                 %td
                   = humanize_secs video.duration
@@ -22,7 +21,7 @@
     %button{id:"add_note", class:"btn btn-success"}
       Add Note
     .well{id: "new_note", style: "display:none"}
-      = form_for [:user, @course, @section, @video, @note] do |f|
+      = form_for [@tutor, @course, @section, @video, @note] do |f|
         - if @note.errors.any?
           #error_explanation
             %h2= "#{pluralize(@note.errors.count, "error")} prohibited this note from being saved:"

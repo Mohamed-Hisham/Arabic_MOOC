@@ -1,15 +1,25 @@
 Rails.application.routes.draw do
   filter :locale,   :exclude => %r(^admins/)
 
-  devise_for :tutors
+  devise_for :tutors, :controllers => {:registrations => "tutors/devise/registrations", :sessions => "tutors/devise/sessions"}
   devise_for :admins
   devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions"}
   resources :admins, only: :show
   resources :users, only: [:show, :edit, :update, :destroy]
-  resources :tutors
+
+  resources :tutors do
+    resources :courses, controller: "tutors/courses" do
+      resources :sections do
+        resources :videos, controller: "tutors/videos" do
+          resources :notes, controller: "tutors/notes" do
+            resources :synmarks, only: :new
+          end
+        end
+      end
+    end
+  end
 
   namespace :admin do
-    # get 'courses_list' => 'courses#course_list', as: :all_courses, controller: "admins/courses"
     resources :courses do
       resources :sections do
         resources :videos
@@ -21,7 +31,11 @@ Rails.application.routes.draw do
   namespace :user do
     resources :courses, only: [:index, :show] do
       resources :sections do
-        resources :videos
+        resources :videos do
+          resources :notes do
+            resources :synmarks, only: :new
+          end
+        end
       end
     end
   end
@@ -29,6 +43,7 @@ Rails.application.routes.draw do
   root 'home#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+  # get 'courses_list' => 'courses#course_list', as: :all_courses, controller: "admins/courses"
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

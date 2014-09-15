@@ -7,7 +7,8 @@ class Note
 
   # Relations
   belongs_to :video
-  has_one :author, class_name: "Tutor" || "User"
+  belongs_to :author, class_name: "Tutor" || "User"
+  has_and_belongs_to_many :synmarks
 
   validates_presence_of :description
 end

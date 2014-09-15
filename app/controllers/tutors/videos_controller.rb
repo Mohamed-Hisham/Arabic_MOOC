@@ -1,4 +1,4 @@
-class User::VideosController < UsersController
+class Tutors::VideosController < TutorsController
   before_action :set_video
   before_action :set_section
   before_action :set_course
@@ -24,6 +24,6 @@ class User::VideosController < UsersController
     end
 
     def set_course
-      @course = Course.find(params[:course_id])
+      @course = @tutor.courses.find(params[:course_id])
     end
 end

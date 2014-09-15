@@ -1,0 +1,19 @@
+= form_for [:user, @course, @section, @video, @note] do |f|
+  - if @note.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@note.errors.count, "error")} prohibited this note from being saved:"
+      %ul
+        - @note.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label "Note Title", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :title, class: "form-control", placeholder: "Note Title"
+
+  .form-group
+    = f.label "Note Description", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :description, class: "form-control", placeholder: "Note Description"
+  .form-group
+    = f.submit 'Save', class: "btn"

@@ -63,7 +63,7 @@ class Tutor
 
   # Validations
   validates_presence_of :first_name, :last_name, :user_name, :occupation
-  validates :phone_number, format: { with: /\A(77|78|79)\d{7}\z/, message: "Only 77, 78, 79 then 7 digits" }
+  validates :phone_number, format: { with: /\A(77|78|79)\d{7}\z/, message: "Only 77, 78, 79 then 7 digits" }, on: :update
   validates :email, :user_name, uniqueness: true
 
 

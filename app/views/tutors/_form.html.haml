@@ -5,6 +5,97 @@
       %ul
         - @tutor.errors.full_messages.each do |msg|
           %li= msg
+  .form-group
+    = f.label "User name", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :user_name, class: "form-control", placeholder: "User name"
 
-  .actions
-    = f.submit 'Save'
+  .form-group
+    = f.label "First name", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :first_name, class: "form-control", placeholder: "First name"
+
+  .form-group
+    = f.label "Last name", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :last_name, class: "form-control", placeholder: "Last name"
+
+  .form-group
+    = f.label "Email", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :email, class: "form-control", placeholder: "Email"
+
+  .form-group
+    = f.label "Mobile Number", class: "col-sm-2 control-label"
+    .col-sm-10
+      .input-group
+        %span{class:"input-group-addon"}
+          +962
+        = f.text_field :phone_number, class: "form-control", placeholder: "Mobile number e.g 790000000", type: "number"
+
+  .form-group
+    = f.label "Date of Birth", class: "col-sm-2 control-label"
+    .col-sm-10
+      .input-group.date{id:"datetimepicker"}
+        = f.text_field :dob, class: "form-control", data: {behaviour: :datepicker}
+        %span{class:"input-group-addon"}
+          %span{class: "fa fa-calendar"}
+
+  .form-group
+    = f.label "Gender", class: "col-sm-2 control-label"
+    .col-sm-10
+      .radio
+        .col-md-2
+          %label{value: :female}
+            = f.radio_button :gender,:female
+            Female
+        .col-md-2
+          %label{value: :male}
+            = f.radio_button :gender,:male
+            Male
+
+  .form-group
+    = f.label "About", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :about_me, class: "form-control", placeholder: "About Me"
+
+  .form-group
+    = f.label "Interest", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :interest, class: "form-control", placeholder: "Interest (e.g. Development, Design, Engineering, Business, etc..)"
+
+  .form-group
+    = f.label "Occupation", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.select :occupation, Tutor::OCCUPATION, {include_blank: false},{class: "form-control"}
+
+  .form-group
+    = f.label "Work Place", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :work_place, class: "form-control", placeholder: "Work place (e.g. University, Organisation, Company)"
+
+  .form-group
+    .row
+      = f.label "Course Avatar", class: "col-sm-2 control-label"
+    .row
+      .col-md-6
+        = image_tag @tutor.avatar.url, class: "preview img-thumbnail"
+    .row
+      .col-md-4
+        %span{class: "btn btn-primary btn-block btn-file", style: "margin-left:15px;margin-top:7px;"}
+          Upload
+          = f.file_field :avatar, id: "imgfile"
+
+  .form-group
+    = f.submit 'Save', class: "btn btn-success"
+%footer
+  :javascript
+    $("#imgfile").change(function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });

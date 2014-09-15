@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
       admin_path(current_admin)
     when :user
       root_path
+    when :tutor
+      tutor_path(current_tutor)
     end
   end
 end

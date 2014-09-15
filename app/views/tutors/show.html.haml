@@ -1,3 +1,4 @@
 %h3= @tutor.name
 = image_tag @tutor.avatar.url
 = @tutor.occupation
+= link_to "Edit Profile", edit_tutor_path(@tutor)

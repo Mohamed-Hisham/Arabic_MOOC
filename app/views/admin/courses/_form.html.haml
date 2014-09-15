@@ -11,10 +11,11 @@
   .form-group
     = c.label "Course Description", class: "col-sm-2 control-label"
     .col-sm-10
-      = c.text_field :description, placeholder: "Course Description", class: "form-control"
+      = c.text_field :description, placeholder: "Course Description",class: "form-control"
   .form-group
     = c.label "Tutor", class: "col-sm-2 control-label"
-    = c.select :tutor , @tutors.map {|t| [t.name ,t.id] } , class: "form-control"
+    .col-sm-10
+      = c.select :tutor , @tutors.map {|t| [t.name ,t.id] },{:include_blank => false}, {class: "form-control"}
   .form-group
     = c.label "Tags", class: "col-sm-2 control-label"
     .col-sm-10
@@ -23,7 +24,30 @@
   .form-group
     = c.label "Course Level", class: "col-sm-2 control-label"
     .col-sm-10
-      = c.select :level, Course::LEVEL, class: "form-control"
+      = c.select :level, Course::LEVEL,{:include_blank => false}, {class: "form-control"}
+  .form-group
+    .row
+      = c.label "Course Avatar", class: "col-sm-2 control-label"
+    .row
+      .col-md-6
+        = image_tag @course.avatar.url, class: "preview img-thumbnail"
+    .row
+      .col-md-4
+        %span{class: "btn btn-primary btn-block btn-file", style: "margin-left:15px;margin-top:7px;"}
+          Upload
+          = c.file_field :avatar, id: "imgfile"
   .form-group
     .col-sm-10.col-sm-offest-2
       = c.submit "Create", class: "btn btn-default"
+
+%footer
+  :javascript
+    $("#imgfile").change(function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('.preview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });

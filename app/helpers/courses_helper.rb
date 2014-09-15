@@ -1,7 +1,7 @@
 module CoursesHelper
 
   def first_section(course)
-    @first_section = course.sections.first
+    return course.sections.first
   end
 
   def first_video(course)
