@@ -3,6 +3,9 @@ class Tutor
   include Mongoid::Slug
   include Mongoid::Enum
   include Mongo::Voter
+
+  after_create :set_rating_to_zero
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -67,9 +70,17 @@ class Tutor
   validates :email, :user_name, uniqueness: true
 
 
-  #Functions
+  # Functions
   def name
     return "#{self.first_name} #{self.last_name}"
   end
 
+  def set_rating_to_zero
+    self.update_attribute(:unweighted_rating, 0)
+    self.update_attribute(:rates, 0)
+  end
+
+  def rate_number(rating, user)
+    self.rate_and_save(rating, user)
+  end
 end

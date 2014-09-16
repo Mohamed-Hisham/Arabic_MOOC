@@ -1,5 +1,5 @@
 class User::CoursesController < UsersController
-  before_action :set_course, only: :show
+  before_action :set_course, only: [:show, :rate_course]
 
   # GET /courses
   # GET /courses.json

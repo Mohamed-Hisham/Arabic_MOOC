@@ -1,6 +1,8 @@
 %h3= @tutor.name
 = image_tag @tutor.avatar.url
-= text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @tutor.unweighted_rating, data:{size:"xs", readonly: "true"}}
+
+= form_tag rate_tutor_user_tutor_path(@tutor), {id:"rate_tutor"} do
+  = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @tutor.unweighted_rating, data:{size:"xs"}}
 
 .row
   %label{class: "col-sm-2"} User name
@@ -58,4 +60,8 @@
   .col-sm-10
     = @tutor.work_place
 
-= link_to "Edit Profile", edit_tutor_path(@tutor)
+%footer
+  :javascript
+    $('#input-id').change(function() {
+      $('form#rate_tutor').trigger('submit.rails');
+    });

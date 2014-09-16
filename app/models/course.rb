@@ -34,4 +34,8 @@ class Course
     end
     self.update_attribute(:length, duration)
   end
+
+  def rate_number(rating, user)
+    self.rate_and_save(rating, user)
+  end
 end

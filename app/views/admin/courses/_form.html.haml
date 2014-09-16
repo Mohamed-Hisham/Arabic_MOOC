@@ -1,4 +1,4 @@
-= form_for [:admin, @course], html: {class: "form-horizontal", method: :post} do |c|
+= form_for [:admin, @course], html: {class: "form-horizontal"} do |c|
   - if @course.errors.any?
     %ul
       - @course.errors.full_messages.each do |e|
@@ -15,7 +15,7 @@
   .form-group
     = c.label "Tutor", class: "col-sm-2 control-label"
     .col-sm-10
-      = c.select :tutor , @tutors.map {|t| [t.name ,t.id] },{:include_blank => false}, {class: "form-control"}
+      = c.select :tutor , Tutor.all.to_a.map {|t| [t.name ,t.id] },{:include_blank => false}, {class: "form-control"}
   .form-group
     = c.label "Tags", class: "col-sm-2 control-label"
     .col-sm-10

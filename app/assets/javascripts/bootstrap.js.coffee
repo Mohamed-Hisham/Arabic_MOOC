@@ -1,6 +1,7 @@
 jQuery ->
   $("a[rel~=popover], .has-popover").popover()
   $("a[rel~=tooltip], .has-tooltip").tooltip()
+  $("#input-id").rating()
   $("#datetimepicker").datetimepicker
     pickTime: false
     minDate: "1/1/1930"
@@ -58,3 +59,4 @@ $.rails.allowAction = (element) ->
  $modal_html.modal()
  # Prevent the original link from working
  return false
+

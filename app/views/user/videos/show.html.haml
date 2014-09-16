@@ -1,6 +1,10 @@
-%h3 Course: #{@course.title} #{humanize_secs @course.length} by
-= link_to @course.tutor.name, tutor_path(@course.tutor)
+%h3 Course: #{@course.title} #{humanize_secs @course.length}
+by
+= link_to @course.tutor.name, user_tutor_path(@course.tutor)
 = link_to 'Back', user_courses_path
+
+= form_tag rate_course_user_course_section_video_path(@course, @section, @video), {id:"rate_course"} do
+  = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
 .row
   .col-md-7
     %video{:width => 320, :height => 240, :controls => true, id: "video_id"}
@@ -61,8 +65,9 @@
 
     - unless @notes.nil?
       - @notes.each do |note|
-        %div{class: note_color(note)}
-          .panel-heading
+        %div{id: note.id, class: note_color(note)}
+          - byebug
+          .panel-heading{class:"note_div div-clickable", data: {id: note.synmarks.first.start_time}}
             %h3{class: "panel-title"}
               - unless note.title.empty?
                 = note.title
@@ -72,12 +77,13 @@
             - if note.author_id == current_user.id
               = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
                 %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
-          .panel-body
+          .panel-body{class:"note_div div-clickable", data: {id: note.synmarks.first.start_time}}
             = note.description
-            - unless note.attachment.nil?
+            - unless note.attachment.url.nil?
               = link_to "Download File", note.attachment.url
-            %label From: #{humanize_secs note.synmarks.first.start_time}
-            %label To: #{humanize_secs note.synmarks.first.end_time}
+            %div{class: "pull-right"}
+              %label From: #{humanize_secs note.synmarks.first.start_time}
+              %label To: #{humanize_secs note.synmarks.first.end_time}
 
     - else
       No notes!
@@ -112,3 +118,12 @@
       $('#to_sec').val(secs);
     });
 
+    $('#input-id').change(function() {
+      $('form#rate_course').trigger('submit.rails');
+    });
+
+    $('.note_div').click(function (){
+      start_time = $('.note_div').data('id');
+      alert(start_time);
+      $('#video_id')[0].player.setCurrentTime(parseInt(start_time));
+    });

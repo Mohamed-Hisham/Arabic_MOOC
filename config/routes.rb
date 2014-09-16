@@ -42,9 +42,17 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions"}
   resources :users, only: [:show, :edit, :update, :destroy]
   namespace :user do
+    resources :tutors, only: :show do
+      member do
+        post 'rate_tutor'
+      end
+    end
     resources :courses, only: [:index, :show] do
       resources :sections do
         resources :videos do
+          member do
+            post 'rate_course'
+          end
           resources :notes do
             resources :synmarks, only: :new
           end

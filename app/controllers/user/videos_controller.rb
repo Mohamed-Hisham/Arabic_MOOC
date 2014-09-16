@@ -15,6 +15,17 @@ class User::VideosController < UsersController
     @synmark = @note.synmarks.new
   end
 
+  def rate_course
+    @course.rate_number(params[:rating_number], current_user)
+    respond_to do |format|
+      if @course.save
+        format.html {redirect_to user_course_section_video_path(@course, @section, @video), notice: "Course was successfully rated"}
+      else
+        format.html {redirect_to user_course_section_video_path(@course, @section, @video), alert: "Course was not rated"}
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_video
@@ -27,5 +38,9 @@ class User::VideosController < UsersController
 
     def set_course
       @course = Course.find(params[:course_id])
+    end
+
+    def course_params
+      params.permit(:rating_number)
     end
 end

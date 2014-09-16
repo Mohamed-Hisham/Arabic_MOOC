@@ -15,6 +15,7 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require twitter/bootstrap
+//= require star-rating
 //= require mediaelement_rails
 //= require turbolinks
 //= require_tree .

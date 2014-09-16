@@ -1,26 +1,33 @@
-.jumbotron
+.container
+  .jumbotron
+    .container
+      .row.well
+        .col-md-6
+          %h2 Video brens , you can learn it the fun way!
+          %ul
+            %li Animated videos
+            %li tutors note , and your own notes!!
+            %li ask questions and get the best answer (Stackoverflow)
+        .col-md-6
+          =image_tag("home-img.png", height:"250",width:"400")
+  .row
   .container
-    .row.well
-      .col-md-6
-        %h2 Video brens , you can learn it the fun way!
-        %ul
-          %li Animated videos
-          %li tutors note , and your own notes!!
-          %li ask questions and get the best answer (Stackoverflow)
-      .col-md-6
-        =image_tag("home-img.png", height:"250",width:"400")
-.row
-  New courses!
-.row
-  .col-md-4
-    %a{class:"thumbnail", href:"#"}
-      =image_tag("home-img.png")
-  .col-md-4
-    %a{class:"thumbnail", href:"#"}
-      =image_tag("home-img.png")
-  .col-md-4
-    %a{class:"thumbnail", href:"#"}
-      =image_tag("home-img.png")
-.row
-  Most rated courses!
+    New courses!
+    .row.col-md-offset-1
+      - @courses.each do |c|
+        .col-md-3.well{style: "margin-right:10px;"}
+          .row
+            .col-md-8
+              %h3= c.title
+            .col-md-4
+              = image_tag c.tutor.avatar.url, class: "img-circle pull-right", style: "width:80px;height:80px;"
+          .row
+            .col-md-6
+              %h6= humanize_secs c.length
+            .col-md-6
+              %h6= c.level
+          .row
+            = image_tag c.avatar.url, class: "img-thumbnail"
+    .row
+      Most rated courses!
 

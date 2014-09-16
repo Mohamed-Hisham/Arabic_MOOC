@@ -16,7 +16,7 @@ class Admin::CoursesController < AdminsController
   # GET /courses/new
   def new
     @course = Course.new
-    @tutors = Tutor.all.to_a
+    @tutors = Tutor.all
   end
 
   # GET /courses/1/edit
@@ -26,7 +26,6 @@ class Admin::CoursesController < AdminsController
   # POST /courses
   # POST /courses.json
   def create
-    byebug
     @course = Course.new(course_params)
 
     respond_to do |format|
@@ -72,6 +71,6 @@ class Admin::CoursesController < AdminsController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
-      params[:course].permit(:title, :description, :level, :tags , :tutor)
+      params[:course].permit(:title, :description, :level, :tags , :tutor, :avatar)
     end
 end
