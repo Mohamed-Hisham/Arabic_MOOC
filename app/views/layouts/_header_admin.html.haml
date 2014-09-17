@@ -15,6 +15,8 @@
           = link_to "Courses", admin_courses_path
         %li
           = link_to "Tutors", admin_tutors_path
+        %li
+          = link_to "Users", admin_users_path
       %ul.nav.navbar-nav.navbar-right
         - if (I18n.locale.to_sym == :ar)
           = link_to 'English', url_for(request.parameters.merge(locale: 'en')), class: "btn btn-sm btn-danger footer-btn"

@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       end
     end
     resources :tutors
+    resources :users
   end
 
   # User
