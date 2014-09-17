@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     end
     resources :tutors
     resources :users
+    resources :complaints, only: :index
   end
 
   # User
@@ -51,6 +52,7 @@ Rails.application.routes.draw do
     resources :courses, only: [:index, :show] do
       resources :sections do
         resources :videos do
+          resources :complaints, only: [:new, :create]
           member do
             post 'rate_course'
           end

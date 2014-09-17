@@ -1,0 +1,15 @@
+%h2 Users' Feedbacks
+
+%table{class: "table table-hover table-striped table-condensed"}
+  %th Name
+  %th Email
+  %th Title
+  %th Description
+
+  - unless @complaints.nil?
+    - @complaints.each do |c|
+      %tr
+        %td= c.user.name
+        %td= c.user.email
+        %td= c.title
+        %td= c.description
