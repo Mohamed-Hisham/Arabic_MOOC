@@ -65,9 +65,8 @@ by
 
     - unless @notes.nil?
       - @notes.each do |note|
-        %div{id: note.id, class: note_color(note)}
-          - byebug
-          .panel-heading{class:"note_div div-clickable", data: {id: note.synmarks.first.start_time}}
+        %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
+          .panel-heading
             %h3{class: "panel-title"}
               - unless note.title.empty?
                 = note.title
@@ -77,7 +76,7 @@ by
             - if note.author_id == current_user.id
               = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
                 %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
-          .panel-body{class:"note_div div-clickable", data: {id: note.synmarks.first.start_time}}
+          .panel-body
             = note.description
             - unless note.attachment.url.nil?
               = link_to "Download File", note.attachment.url
@@ -123,7 +122,6 @@ by
     });
 
     $('.note_div').click(function (){
-      start_time = $('.note_div').data('id');
-      alert(start_time);
+      var start_time = $(this).data('id');
       $('#video_id')[0].player.setCurrentTime(parseInt(start_time));
     });

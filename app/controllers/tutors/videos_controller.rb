@@ -8,7 +8,7 @@ class Tutors::VideosController < TutorsController
   def show
     @first_video = @course.sections.first.videos.first
     @sections = @course.sections.all.to_a
-    @notes = @video.notes.all.to_a
+    @notes = @tutor.notes.all.to_a
     @note = @video.notes.new
     @synmark = @note.synmarks.new
   end

@@ -61,14 +61,13 @@
 
     - unless @notes.nil?
       - @notes.each do |note|
-        %div{class: note_color(note)}
+        %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
           .panel-heading
             %h3{class: "panel-title"}
               - unless note.title.empty?
                 = note.title
               - else
                 Note
-              by
               = note_author(note)
             - if note.author_id == current_tutor.id
               = link_to tutor_course_section_video_note_path(@tutor, @course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
@@ -111,3 +110,7 @@
       $('#to_sec').val(secs);
     });
 
+    $('.note_div').click(function (){
+      var start_time = $(this).data('id');
+      $('#video_id')[0].player.setCurrentTime(parseInt(start_time));
+    });
