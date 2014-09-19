@@ -49,3 +49,34 @@
 
 
 = link_to 'New Section', new_admin_course_section_path(@course)
+
+%h3 Stack Overflow
+%h2 Questions to be deleted
+
+%table{class: "table table-condensed table-hover table-striped"}
+  %tr
+    %th Title
+    %th Description
+    %th # of votes up
+    %th # of votes down
+    %th # of answers
+    %th
+  - unless @questions.nil?
+    - @questions.each do |q|
+      %tr
+        %td= q.title
+        %td= q.description
+        %td= q.votes[:up_count]
+        %td= q.votes[:down_count]
+        %td= q.answers.count
+        %td= link_to "Delete", admin_course_question_path(@course, q), method: :delete, data: {confirm: "delete?"}
+
+
+
+
+
+
+
+
+
+

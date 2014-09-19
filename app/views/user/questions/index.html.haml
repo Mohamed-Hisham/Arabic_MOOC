@@ -1,0 +1,15 @@
+%h1 Stack Overflow
+
+%table{class: "table table-hover table-striped table-condensed"}
+  %tr
+    %th Title
+    %th # of Answers
+    %th # of Votes
+
+  - @questions.each do |question|
+    %tr
+      %td= link_to question.title, user_course_question_path(@course, question)
+      %td= question.answers.count
+      %td= question.votes[:up_count]
+
+= link_to 'New Question', new_user_course_question_path(@course)

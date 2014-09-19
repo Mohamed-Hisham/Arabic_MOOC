@@ -2,15 +2,14 @@ class Answer
 
   # Fields
   include Mongoid::Document
-  include Mongo::Voteable
+  include Mongoid::Timestamps
 
   field :description, type: String
-
-  voteable self, :up => +1, :down => -1
 
   # Relations
   belongs_to :question
   belongs_to :answerer , class_name: "Tutor" || "User"
+  has_many :votes
 
   # Validations
   validates_presence_of :description

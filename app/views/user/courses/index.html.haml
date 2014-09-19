@@ -4,7 +4,7 @@
   - unless @courses.nil?
     - @courses.each do |course|
       %tr
-        %td= image_tag course.avatar.url
+        %td= image_tag course.avatar.browse_thumb.url
         - unless course.sections.first.nil? || course.sections.first.videos.first.nil?
           %td= link_to course.title, user_course_section_video_path(course, first_section(course), first_video(course))
         - else

@@ -1,0 +1,89 @@
+.container.well
+  .col-md-2
+    .row
+      = image_tag question_user(@question).avatar.url
+    .row
+      By
+      %label= question_user(@question).name
+    .row
+      = @question.created_at
+    .row
+      #{@question_upvotes} Votes up | #{@question_downvotes} Votes down
+  .col-md-10
+    .panel.panel-default
+      .panel-heading
+        = @question.title
+      .panel-body
+        = @question.description
+    %div{class: "pull-right"}
+      = form_tag question_vote_user_course_question_path(@course, @question), {id:"vote_form"} do
+        .ui-group-buttons
+          = hidden_field_tag 'question_vote'
+          %a{class:"#{check_up_vote(@question)}", type:"submit", id: "question_vote_up"}
+            %span{class:"fa fa-thumbs-o-up"}
+          .or
+          %a{class:"#{check_down_vote(@question)}", type:"submit", id: "question_vote_down"}
+            %span{class:"fa fa-thumbs-down"}
+
+
+= link_to 'Back', user_course_questions_path(@course)
+- if @question.user == current_user
+  = link_to 'Delete', request_to_delete_user_course_question_path(@course, @question), method: :put
+
+
+%h3 Answers
+- unless @answers.nil?
+  - @answers.each do |a|
+    .container.well
+      .col-md-2
+        .row
+          = image_tag answerer(a).avatar.url
+        .row
+          By
+          %label= answerer(a).name
+        .row
+          = a.created_at
+        .row
+          #{count_answer_up(a)} Votes up | #{count_answer_down(a)} Votes down
+      .col-md-10
+        %label= a.description
+        %div{class: "pull-right"}
+          = form_tag answer_vote_user_course_question_answer_path(@course, @question, a), {id:"answer_vote_form"} do
+            .ui-group-buttons
+              = hidden_field_tag 'answer_vote'
+              %a{class:"#{check_up_vote_answer(a)}", type:"submit", id: "answer_vote_up"}
+                %span{class:"fa fa-thumbs-o-up"}
+              .or
+              %a{class:"#{check_down_vote_answer(a)}", type:"submit", id: "answer_vote_down"}
+                %span{class:"fa fa-thumbs-down"}
+
+
+
+= form_tag user_course_question_answers_path(@course, @question) do
+  = text_area_tag 'answer[description]'
+  = submit_tag "Create Answer"
+
+%footer
+  :javascript
+    $('#question_vote_up').click(function() {
+      $('#question_vote').val(1);
+      $('form#vote_form').trigger('submit.rails');
+    });
+
+    $('#question_vote_down').click(function() {
+      $('#question_vote').val(-1);
+      $('form#vote_form').trigger('submit.rails');
+    });
+
+    $('#answer_vote_up').click(function() {
+      $('#answer_vote').val(1);
+      $('form#answer_vote_form').trigger('submit.rails');
+    });
+
+    $('#answer_vote_down').click(function() {
+      $('#answer_vote').val(-1);
+      $('form#answer_vote_form').trigger('submit.rails');
+    });
+
+
+

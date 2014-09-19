@@ -11,6 +11,7 @@ class Admin::CoursesController < AdminsController
   # GET /courses/1.json
   def show
     @sections = @course.sections.all
+    @questions = @course.questions.where(to_delete: true)
   end
 
   # GET /courses/new

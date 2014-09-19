@@ -10,7 +10,7 @@ gem 'mongoid', '~> 4.0.0'
 gem 'mongoid-enum', '~> 0.2.0'
 gem 'mongoid_slug', '~> 3.2.1'
 gem 'mongoid_rateable', github: 'PerfectMemory/mongoid_rateable', branch: 'master'
-gem 'voteable_mongo', '~> 0.9.3'
+gem 'rs_voteable_mongo', '~> 1.0.2'
 gem 'mongoid_paranoia', '~> 0.1.2'
 
 gem 'haml-rails', '~> 0.5.3'
@@ -41,6 +41,7 @@ gem 'jbuilder', '~> 2.0'
 
 # Authentication
 gem 'devise', '~> 3.3.0'
+gem 'omniauth-facebook', '~> 2.0.0'
 
 # Uploads
 gem 'carrierwave-mongoid', '~> 0.7.1', :require => 'carrierwave/mongoid'

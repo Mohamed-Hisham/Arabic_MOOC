@@ -20,14 +20,14 @@
             .col-md-8
               %h3= c.title
             .col-md-4
-              = image_tag c.tutor.avatar.url, class: "img-circle pull-right", style: "width:80px;height:80px;"
+              = image_tag c.tutor.avatar.browse_thumb.url, class: "img-circle pull-right", style: "width:80px;height:80px;"
           .row
             .col-md-6
               %h6= humanize_secs c.length
             .col-md-6
               %h6= c.level
           .row
-            = image_tag c.avatar.url, class: "img-thumbnail"
+            = image_tag c.avatar.home_thumb.url, class: "img-thumbnail", style: "width:210px;height:141px;"
     .row
       Most rated courses!
 

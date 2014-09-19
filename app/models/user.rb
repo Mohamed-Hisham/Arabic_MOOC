@@ -9,6 +9,8 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+  devise :omniauthable, omniauth_providers: [:facebook]
+
   ## Database authenticatable
   field :email,              type: String, default: ""
   field :encrypted_password, type: String, default: ""
@@ -54,6 +56,8 @@ class User
 
   slug :user_name, scope: where(deleted_at: nil)
 
+  field :provider
+  field :uid
 
   # Relations
   has_and_belongs_to_many :courses
@@ -61,12 +65,34 @@ class User
   has_many :complaints
   has_many :questions
   has_many :answers
+  has_many :votes
 
   # Validations
   validates_presence_of :first_name, :last_name, :user_name
-  validates :email, :user_name, uniqueness: true
+  validates :user_name, uniqueness: true
   # Functions
   def name
     return "#{self.first_name} #{self.last_name}"
+  end
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.user_name = "#{auth.info.name}_#{auth.uid}"
+      user.password = Devise.friendly_token[0,20]
+      user.first_name = auth.info.first_name   # assuming the user model has a name
+      user.last_name = auth.info.last_name   # assuming the user model has a name
+      user.avatar = auth.info.image.gsub('http://','https://') # assuming the user model has an image
+      user.dob = auth.info.birthday # assuming the user model has an image
+      user.gender = auth.extra.gender # assuming the user model has an image
+    end
+  end
+
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
+      end
+    end
   end
 end

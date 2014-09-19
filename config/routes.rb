@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :admins, only: :show
   namespace :admin do
     resources :courses do
+      resources :questions, only: :destroy
       resources :sections do
         resources :videos do
           member do
@@ -41,7 +42,7 @@ Rails.application.routes.draw do
   end
 
   # User
-  devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions"}
+  devise_for :users, :controllers => {:registrations => "users/devise/registrations", :sessions => "users/devise/sessions", :omniauth_callbacks => "users/devise/omniauth_callbacks"}
   resources :users, only: [:show, :edit, :update, :destroy]
   namespace :user do
     resources :tutors, only: :show do
@@ -50,6 +51,17 @@ Rails.application.routes.draw do
       end
     end
     resources :courses, only: [:index, :show] do
+      resources :questions, only: [:index, :show, :new, :create] do
+        resources :answers do
+          member do
+            post 'answer_vote'
+          end
+        end
+        member do
+          put 'request_to_delete'
+          post 'question_vote'
+        end
+      end
       resources :sections do
         resources :videos do
           resources :complaints, only: [:new, :create]
