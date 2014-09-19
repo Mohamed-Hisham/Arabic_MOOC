@@ -54,7 +54,6 @@ class User::QuestionsController < UsersController
 
   def question_vote
     new_vote = @question.votes.find_or_create_by(user: current_user, votee: @question, votee_class: "Question")
-
     if params[:question_vote] == "1"
       new_vote.vote_up
       flash[:notice] = "Successfully voted up"

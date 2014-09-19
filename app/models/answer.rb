@@ -1,9 +1,8 @@
 class Answer
-
-  # Fields
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  # Fields
   field :description, type: String
 
   # Relations

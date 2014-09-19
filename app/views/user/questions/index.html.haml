@@ -10,6 +10,6 @@
     %tr
       %td= link_to question.title, user_course_question_path(@course, question)
       %td= question.answers.count
-      %td= question.votes[:up_count]
+      -# %td= question.votes
 
 = link_to 'New Question', new_user_course_question_path(@course)

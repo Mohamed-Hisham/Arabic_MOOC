@@ -34,12 +34,19 @@ class User::AnswersController < UsersController
   end
 
   def answer_vote
-    new_vote = @answer.votes.find_or_create_by(user: current_user, votee: @answer, votee_class: "Answer")
+    answer_vote_found = @answer.votes.where(user: current_user, votee: @answer, votee_class: "Answer")
+    unless answer_vote_found.exists?
+      new_answer_vote = @answer.votes.where(user: current_user, votee: @answer, votee_class: "Answer").create
+    else
+      new_answer_vote = @answer.votes.find_by(user: current_user, votee: @answer, votee_class: "Answer")
+    end
 
     if params[:answer_vote] == "1"
-      flash[:notice] = "Successfully voted up"
+      new_answer_vote.vote_up
+      flash[:notice] = "Answer voted up"
     elsif params[:answer_vote] == "-1"
-      flash[:notice] = "Successfully voted down"
+      new_answer_vote.vote_down
+      flash[:notice] = "Answer voted down"
     else
       flash[:alert] = "Illegal vote"
     end

@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   # Admin
-  devise_for :admins
+  devise_for :admins, :controllers => {:sessions => "admins/devise/sessions"}
   resources :admins, only: :show
   namespace :admin do
     resources :courses do
