@@ -1,5 +1,7 @@
 %h3 Course: #{@course.title} #{humanize_secs @course.length}
-= link_to 'Back', user_courses_path
+= link_to 'Back', tutor_courses_path
+
+= link_to "Course Questions", tutor_course_questions_path(@tutor, @course)
 .row
   .col-md-7
     %video{:width => 320, :height => 240, :controls => true, id: "video_id"}

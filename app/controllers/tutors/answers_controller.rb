@@ -1,4 +1,4 @@
-class User::AnswersController < UsersController
+class Tutors::AnswersController < TutorsController
   before_action :set_answer, except: :create
   before_action :set_question
   before_action :set_course
@@ -7,11 +7,11 @@ class User::AnswersController < UsersController
   # POST /questions.json
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.answerer = current_user
+    @answer.answerer = current_tutor
 
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to user_course_question_path(@course, @question), notice: 'Question was successfully created.' }
+        format.html { redirect_to tutor_course_question_path(@tutor, @course, @question), notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @answer }
       else
         format.html { render :new }
@@ -26,19 +26,19 @@ class User::AnswersController < UsersController
     @answer.destroy
     respond_to do |format|
       if @answer.save
-        format.html { redirect_to user_course_question_path(@course, @question), notice: 'Question is sent to admin for reviewing.' }
+        format.html { redirect_to tutor_course_question_path(@tutor, @course, @question), notice: 'Question is sent to admin for reviewing.' }
       else
-        format.html { redirect_to questions_url, notice: 'Question can not be deleted.' }
+        format.html { redirect_to questions_url, notice: 'Answer can not be deleted.' }
       end
     end
   end
 
   def answer_vote
-    answer_vote_found = @answer.votes.where(voter: current_user, votee: @answer, votee_class: "Answer", voter_class: "User")
+    answer_vote_found = @answer.votes.where(voter: @tutor, votee: @answer, votee_class: "Answer", voter_class: "Tutor")
     unless answer_vote_found.exists?
-      new_answer_vote = @answer.votes.where(voter: current_user, votee: @answer, votee_class: "Answer", voter_class: "User").create
+      new_answer_vote = @answer.votes.where(voter: @tutor, votee: @answer, votee_class: "Answer", voter_class: "Tutor").create
     else
-      new_answer_vote = @answer.votes.find_by(voter: current_user, votee: @answer, votee_class: "Answer", voter_class: "User")
+      new_answer_vote = @answer.votes.find_by(voter: @tutor, votee: @answer, votee_class: "Answer", voter_class: "Tutor")
     end
 
     if params[:answer_vote] == "1"
@@ -52,7 +52,7 @@ class User::AnswersController < UsersController
     end
 
     respond_to do |format|
-      format.html {redirect_to user_course_question_path(@course, @question)}
+      format.html {redirect_to tutor_course_question_path(@tutor, @course, @question)}
     end
   end
 

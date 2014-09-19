@@ -16,25 +16,23 @@
       .panel-body
         = @question.description
     %div{class: "pull-right"}
-      = form_tag question_vote_user_course_question_path(@course, @question), {id:"vote_form"} do
+      = form_tag question_vote_tutor_course_question_path(@tutor, @course, @question), {id:"vote_form"} do
         .ui-group-buttons
           = hidden_field_tag 'question_vote'
-          %a{class:"#{check_up_vote(@question)}", type:"submit", id: "question_vote_up"}
+          %a{class:"#{check_tutor_up_vote(@question)}", type:"submit", id: "question_vote_up"}
             %span{class:"fa fa-thumbs-o-up"}
           .or
-          %a{class:"#{check_down_vote(@question)}", type:"submit", id: "question_vote_down"}
+          %a{class:"#{check_tutor_down_vote(@question)}", type:"submit", id: "question_vote_down"}
             %span{class:"fa fa-thumbs-down"}
 
 
-= link_to 'Back', user_course_questions_path(@course)
-- if @question.user == current_user
-  = link_to 'Delete', request_to_delete_user_course_question_path(@course, @question), method: :put
+= link_to 'Back', tutor_course_questions_path(@tutor, @course)
 
 
 %h3 Answers
 - unless @answers.nil?
   - @answers.each do |a|
-    %div{class: "container well #{check_tutor_answer(a)}"}
+    .container.well
       .col-md-2
         .row
           = image_tag answerer(a).avatar.url
@@ -47,20 +45,20 @@
           #{count_answer_up(a)} Votes up | #{count_answer_down(a)} Votes down
       .col-md-10
         %label= a.description
-        - unless answerer(a) == current_user
+        - unless answerer(a) == current_tutor
           %div{class: "pull-right"}
-            = form_tag answer_vote_user_course_question_answer_path(@course, @question, a), {class:"answer_vote_form"} do
+            = form_tag answer_vote_tutor_course_question_answer_path(@tutor, @course, @question, a), {class:"answer_vote_form"} do
               .ui-group-buttons
                 = hidden_field_tag 'answer_vote', '',{class: "answer_vote"}
-                %a{class:"#{check_up_vote_answer(a)} answer_vote_up", type:"submit", id: ""}
+                %a{class:"#{check_tutor_up_vote_answer(a)} answer_vote_up", type:"submit", id: ""}
                   %span{class:"fa fa-thumbs-o-up"}
                 .or
-                %a{class:"#{check_down_vote_answer(a)} answer_vote_down", type:"submit", id: ""}
+                %a{class:"#{check_tutor_down_vote_answer(a)} answer_vote_down", type:"submit", id: ""}
                   %span{class:"fa fa-thumbs-down"}
 
 
 
-= form_tag user_course_question_answers_path(@course, @question) do
+= form_tag tutor_course_question_answers_path(@tutor,@course, @question) do
   = text_area_tag 'answer[description]'
   = submit_tag "Create Answer"
 

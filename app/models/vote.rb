@@ -5,9 +5,10 @@ class Vote
   # Fields
   field :status,           type: Integer
   field :votee_class,      type: String
+  field :voter_class,      type: String
 
   # Relations
-  belongs_to :user
+  belongs_to :voter, class_name: "User" || "Tutor"
   belongs_to :votee, class_name: "Question" || "Answer"
 
   # Functions

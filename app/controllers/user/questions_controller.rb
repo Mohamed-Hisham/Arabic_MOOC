@@ -11,7 +11,7 @@ class User::QuestionsController < UsersController
   # GET /questions/1
   # GET /questions/1.json
   def show
-    @answers = @question.answers.all.to_a
+    @answers = @question.answers.order_by(:overall_votes.desc)
     @question_upvotes = @question.votes.where(status: 1).count
     @question_downvotes = @question.votes.where(status: -1).count
   end
@@ -53,7 +53,7 @@ class User::QuestionsController < UsersController
   end
 
   def question_vote
-    new_vote = @question.votes.find_or_create_by(user: current_user, votee: @question, votee_class: "Question")
+    new_vote = @question.votes.find_or_create_by(voter: current_user, votee: @question, votee_class: "Question", voter_class: "User")
     if params[:question_vote] == "1"
       new_vote.vote_up
       flash[:notice] = "Successfully voted up"

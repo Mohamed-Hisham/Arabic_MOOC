@@ -8,6 +8,6 @@
 
   - @questions.each do |question|
     %tr
-      %td= link_to question.title, user_course_question_path(@course, question)
+      %td= link_to question.title, tutor_course_question_path(@tutor, @course, question)
       %td= question.answers.count
       %td= question.overall_votes

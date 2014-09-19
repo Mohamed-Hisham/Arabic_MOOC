@@ -12,6 +12,16 @@ Rails.application.routes.draw do
   devise_for :tutors, :controllers => {:registrations => "tutors/devise/registrations", :sessions => "tutors/devise/sessions"}
   resources :tutors do
     resources :courses, controller: "tutors/courses" do
+      resources :questions, controller: "tutors/questions" do
+        member do
+          post 'question_vote'
+        end
+        resources :answers, controller: "tutors/answers", only: [:create, :destroy] do
+          member do
+            post 'answer_vote'
+          end
+        end
+      end
       resources :sections do
         resources :videos, controller: "tutors/videos" do
           resources :notes, controller: "tutors/notes" do

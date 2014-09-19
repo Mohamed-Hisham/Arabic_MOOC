@@ -4,7 +4,7 @@ by
 = link_to 'Back', user_courses_path
 = link_to 'Course Questions', user_course_questions_path(@course)
 = link_to 'New Question', new_user_course_question_path(@course)
-
+= request.remote_ip
 = form_tag user_course_section_video_complaints_path(@course, @section, @video), {id:"feedback-form", class: "form-horizontal"} do
   = text_field_tag 'complaint[title]'
   = text_field_tag 'complaint[description]'
