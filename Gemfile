@@ -43,6 +43,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'devise', '~> 3.3.0'
 gem 'omniauth-facebook', '~> 2.0.0'
 
+# Encryption
+gem 'aes', '~> 0.5.0'
+
 # Uploads
 gem 'carrierwave-mongoid', '~> 0.7.1', :require => 'carrierwave/mongoid'
 gem 'carrierwave-video', '~> 0.5.6'
@@ -99,6 +102,4 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 

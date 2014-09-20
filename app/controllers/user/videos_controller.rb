@@ -13,6 +13,7 @@ class User::VideosController < UsersController
     @notes = @user_notes.concat(@tutor_notes)
     @note = @video.notes.new
     @synmark = @note.synmarks.new
+    check_view_token
   end
 
   def rate_course
@@ -42,5 +43,37 @@ class User::VideosController < UsersController
 
     def course_params
       params.permit(:rating_number)
+    end
+
+    protected
+    def generate_view_token
+      to_be_enc = "#{current_user.id} #{@course.id} #{@section.id}"
+      token = AES.encrypt(to_be_enc, Rails.application.secrets.secret_key_base)
+      return token
+    end
+
+    def generate_video_token
+      to_be_enc = "#{current_user.id} #{@course.id} #{@section.id} #{@video.id}"
+      token = AES.encrypt(to_be_enc, Rails.application.secrets.secret_key_base)
+      return token
+    end
+
+    def check_view_token
+      check_viewing_same_video
+      if session[:view_token] == nil && session[:video_token] == nil
+        session[:view_token] = generate_view_token
+        session[:video_token] = generate_video_token
+        @video.inc_views
+      elsif session[:view_token] != nil && session[:video_token] == nil
+        session[:video_token] = generate_video_token
+        @video.inc_views
+      end
+    end
+
+    def check_viewing_same_video
+      unless session[:old_video] == @video.id
+        session[:video_token] = nil
+      end
+      session[:old_video] = @video.id
     end
 end

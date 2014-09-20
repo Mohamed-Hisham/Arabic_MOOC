@@ -5,6 +5,7 @@ class Video
   field :duration,     type: Integer
   field :video_file
   field :viewed_by_guest, type: Boolean, default: false
+  field :number_of_views, type: Integer, default: 0
 
   mount_uploader :video_file, VideoUploader
 
@@ -18,5 +19,9 @@ class Video
   # Functions
   def viewed_by_guest_status(param)
     self.update_attribute(:viewed_by_guest, param)
+  end
+
+  def inc_views
+    self.update_attribute(:number_of_views, self.number_of_views + 1)
   end
 end
