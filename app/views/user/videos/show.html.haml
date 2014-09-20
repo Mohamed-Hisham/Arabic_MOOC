@@ -6,6 +6,9 @@ by
 = link_to 'New Question', new_user_course_question_path(@course)
 = @video.title
 = @video.number_of_views
+= link_to user_course_section_video_path(@course, @section, @video , format: 'pdf') do
+  %i.icon-file-alt
+  Export notes as PDF
 = form_tag user_course_section_video_complaints_path(@course, @section, @video), {id:"feedback-form", class: "form-horizontal"} do
   = text_field_tag 'complaint[title]'
   = text_field_tag 'complaint[description]'

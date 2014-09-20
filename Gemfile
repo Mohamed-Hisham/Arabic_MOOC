@@ -46,6 +46,11 @@ gem 'omniauth-facebook', '~> 2.0.0'
 # Encryption
 gem 'aes', '~> 0.5.0'
 
+# PDF
+# gem 'Ascii85', '~> 1.0.2'
+gem 'prawn', '~> 0.14.0'
+gem "prawnto_2", '~> 0.2.6', :require => "prawnto"
+
 # Uploads
 gem 'carrierwave-mongoid', '~> 0.7.1', :require => 'carrierwave/mongoid'
 gem 'carrierwave-video', '~> 0.5.6'
