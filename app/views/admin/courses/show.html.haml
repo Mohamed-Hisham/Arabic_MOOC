@@ -1,11 +1,13 @@
 %h3 Course #{@course.title}
-
+%label Course Description:
 = @course.description
 %br/
+%label Course Level:
 = @course.level
 %br/
+%label Course Length:
 = humanize_secs @course.length
-
+%label Tutor Name:
 = @course.tutor.name
 
 -unless @course.tags.nil?
