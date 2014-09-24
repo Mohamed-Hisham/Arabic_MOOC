@@ -13,7 +13,7 @@
     = t
 
 = link_to "Edit Course", edit_admin_course_path(@course)
-= link_to "Delete Course", admin_course_path, method: :delete, data: {confirm: "Do you want to delete?"}
+= link_to "Delete Course", admin_course_path(@course), method: :delete, data: {confirm: "Do you want to delete?"}
 
 %h3 Sections
 
