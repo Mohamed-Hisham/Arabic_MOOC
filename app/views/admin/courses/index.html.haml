@@ -5,6 +5,8 @@
 - if @courses.any?
   - @courses.each do |c|
     = link_to c.title, admin_course_path(c)
+    = link_to "Delete", admin_course_path(c), method: :delete, data: {confirm: "Do you want to delete?"}
+    %br
 
 - else
   No courses !

@@ -2,7 +2,9 @@
   %source{:src => @video.video_file.url}
 
 - unless @video.duration.nil?
-  %h3= humanize_secs @video.duration
+  %br
+  Video duration: #{humanize_secs @video.duration}
+  %br
 
 = link_to 'Edit', edit_admin_course_section_video_path(@course,@section,@video)
 = link_to 'back to course', admin_course_path(@course)
