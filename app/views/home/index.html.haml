@@ -1,42 +1,43 @@
-
-%header{class: "jumbotron hero-spacer"}
-  .container
+.jumbotron
+  .row
     .col-md-6
       %h1 Video brens
+      %br/
       %h2 you can learn it the fun way!
+      %br/
       %ul
         %li Animated videos
         %li tutors note , and your own notes!!
         %li ask questions and get the best answer (Stackoverflow)
     .col-md-6
-      =image_tag("home-img.png", height:"250",width:"400", class: "img-thumbnail")
+      %video{:width => 500, :height => 400, :controls => true, id: "video_id"}
+        %source{:src => "/vendor/assets/ETRG.mp4"}
 
 .row
-  .col-md-12
-    New courses!
+  .col-md-12.col-lg-12
+    %h4{class: "home-header"} New courses!
 .row
   - @courses.each do |c|
     .col-md-3.col-sm-6.hero-feature
-      .thumbnail.well
+      .thumbnail
         = image_tag c.avatar.home_thumb.url, class: "img-thumbnail"
         .caption
-          %h3= c.title
-          %h6 Length: #{humanize_secs c.length}
-          %h6 Level: #{c.level}
-          .row
-            = image_tag c.tutor.avatar.browse_thumb.url, class: "img-circle pull-right"
-      -# .row
-      -#   .col-md-8
-      -#     %h3= c.title
-      -#   .col-md-4
-      -#     = image_tag c.tutor.avatar.browse_thumb.url, class: "img-circle pull-right", style: "width:80px;height:80px;"
-      -# .row
-      -#   .col-md-6
-      -#     %h6= humanize_secs c.length
-      -#   .col-md-6
-      -#     %h6= c.level
-      -# .row
-      -#   = image_tag c.avatar.home_thumb.url, class: "img-thumbnail", style: "width:210px;height:141px;"
+          %h4= c.title
+          = image_tag c.tutor.avatar.tutor_thumb.url, class: "img-circle pull-right", style: "width:50px;height:50px;"
+          Length: #{humanize_secs c.length}
+          %br/
+          Level: #{c.level}
 .row
-  Most rated courses!
-
+  .col-md-12.col-lg-12
+    %h4{class: "home-header"} Most rated courses!
+.row
+  - @courses.each do |c|
+    .col-md-3.col-sm-6.hero-feature
+      .thumbnail
+        = image_tag c.avatar.home_thumb.url, class: "img-thumbnail"
+        .caption
+          %h4= c.title
+          = image_tag c.tutor.avatar.tutor_thumb.url, class: "img-circle pull-right", style: "width:50px;height:50px;"
+          Length: #{humanize_secs c.length}
+          %br/
+          Level: #{c.level}

@@ -1,12 +1,21 @@
-%h1 Courses List
+%h3 Courses List
 
-%table
-  - unless @courses.nil?
-    - @courses.each do |course|
-      %tr
-        %td= image_tag course.avatar.browse_thumb.url
-        - unless course.sections.first.nil? || course.sections.first.videos.first.nil?
-          %td= link_to course.title, user_course_section_video_path(course, first_section(course), first_video(course))
-        - else
-          %td
-            = course.title
+- unless @courses.nil?
+  - @courses.each do |course|
+    .panel.panel-success.course-panel
+      .panel-body
+        %b= link_to course.title, course_section_video_path(course, first_section(course), first_video(course)), class: "course_panel_link"
+        %hr/
+        .col-md-10
+          = course.description
+          %br/
+          %label Level:
+          #{course.level}
+          %br/
+          %label Duration:
+          #{humanize_secs course.length}
+        .col-md-2
+          .pull-right
+            = image_tag course.avatar.url, class: "img-thumbnail"
+            %b by
+            = link_to course.tutor.name, user_tutor_path(course.tutor)

@@ -29,4 +29,8 @@ module ApplicationHelper
       s
     }.join(' ')
   end
+
+  def check_home
+    return 'home-body' if current_page?(root_path)
+  end
 end
