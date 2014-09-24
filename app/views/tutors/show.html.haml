@@ -2,10 +2,11 @@
 = image_tag @tutor.avatar.url
 = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @tutor.unweighted_rating, data:{size:"xs", readonly: "true"}}
 
-.row
-  %label{class: "col-sm-2"} User name
-  .col-sm-10
-    %label= @tutor.user_name
+- if tutor_signed_in?
+  .row
+    %label{class: "col-sm-2"} User name
+    .col-sm-10
+      %label= @tutor.user_name
 
 .row
   %label{class: "col-sm-2"} First name
@@ -16,33 +17,34 @@
   %label{class: "col-sm-2"} Last name
   .col-sm-10
     = @tutor.last_name
+- if tutor_signed_in?
+  .row
+    %label{class: "col-sm-2"} Email
+    .col-sm-10
+      = @tutor.email
 
-.row
-  %label{class: "col-sm-2"} Email
-  .col-sm-10
-    = @tutor.email
-
-.row
-  %label{class: "col-sm-2"} Mobile Number
-  .col-sm-10
-    .input-group
-      %span{class:"input-group-addon"}
-        +962
-      = @tutor.phone_number
-.row
-  %label{class: "col-sm-2"} Date of Birth
-  .col-sm-10
-    = @tutor.dob
+  .row
+    %label{class: "col-sm-2"} Mobile Number
+    .col-sm-10
+      .input-group
+        %span{class:"input-group-addon"}
+          +962
+        = @tutor.phone_number
+  .row
+    %label{class: "col-sm-2"} Date of Birth
+    .col-sm-10
+      = @tutor.dob
 
 .row
   %label{class: "col-sm-2"} Gender
   .col-sm-10
     = @tutor.gender
 
-.row
-  %label{class: "col-sm-2"} About
-  .col-sm-10
-    = @tutor.about_me
+- if tutor_signed_in?
+  .row
+    %label{class: "col-sm-2"} About
+    .col-sm-10
+      = @tutor.about_me
 .row
   %label{class: "col-sm-2"} Interest
   .col-sm-10
@@ -53,9 +55,11 @@
   .col-sm-10
     = @tutor.occupation
 
-.row
-  %label{class: "col-sm-2"} Work Place
-  .col-sm-10
-    = @tutor.work_place
+- if tutor_signed_in?
+  .row
+    %label{class: "col-sm-2"} Work Place
+    .col-sm-10
+      = @tutor.work_place
 
-= link_to "Edit Profile", edit_tutor_path(@tutor)
+- if tutor_signed_in?
+  = link_to "Edit Profile", edit_tutor_path(@tutor)

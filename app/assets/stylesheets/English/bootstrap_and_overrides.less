@@ -30,6 +30,9 @@
 // @link-color: #ff0000;
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300);
 
+@panel-success-heading-bg: #56d0b3;
+@panel-success-text: #ffffff;
+
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -57,4 +60,33 @@
 
 .answer_border{
     border:  2pt solid black;
+}
+.home-body{
+    background-color: #56d0b3;
+}
+body{
+    background-color: #ffffff;
+}
+.details-text{
+    color: #848482;
+    font-size: 11px;
+}
+.course-panel{
+    padding: 15px;
+    margin-bottom: @line-height-computed;
+    background-color: @panel-bg;
+    border: 1px solid #56d0b3;
+    border-radius: @panel-border-radius;
+    .box-shadow(0 1px 1px rgba(0,0,0,.05));
+}
+
+.course_panel_link{
+    text-decoration: none;
+    color: #000000;
+    font-size: 18px;
+    &:hover{
+        text-decoration:none;
+        color: #000000;
+        font-size: 18px;
+    }
 }

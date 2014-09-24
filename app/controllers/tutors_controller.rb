@@ -1,5 +1,5 @@
 class TutorsController < ApplicationController
-  before_action :authenticate_tutor!
+  before_action :authenticate_tutor!, except: :show
   before_action :set_tutor
 
   def show
@@ -32,7 +32,7 @@ class TutorsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tutor
-      @tutor = current_tutor
+      @tutor = current_tutor || Tutor.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
