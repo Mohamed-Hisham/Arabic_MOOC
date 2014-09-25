@@ -1,0 +1,17 @@
+= form_for [:user, @course, @question], html: {class: "form-horizontal"} do |f|
+  - if @question.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@question.errors.count, "error")} prohibited this question from being saved:"
+      %ul
+        - @question.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.label "Question Title", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :title, class: "form-control", placeholder: "Question Title"
+  .form-group
+    = f.label "Question Description", class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_field :description, class: "form-control", placeholder: "Question Description"
+  .form-group
+    = f.submit 'Create Question', class: "btn btn-default"
