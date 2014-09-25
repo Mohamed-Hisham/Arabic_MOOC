@@ -8,10 +8,6 @@
     = csrf_meta_tags
   %body{class: "#{check_home}"}
     = render "layouts/header"
-    - if (I18n.locale.to_sym == :ar)
-      = link_to 'English', url_for(request.parameters.merge(locale: 'en')), class: "btn btn-sm btn-danger pull-right"
-    - else
-      = link_to 'ﻋﺮﺑﻰ', url_for(request.parameters.merge(locale: 'ar')), class: "btn btn-sm btn-danger pull-right"
     .container
       = render "layouts/flash_messages"
       = yield

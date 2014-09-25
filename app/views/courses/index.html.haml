@@ -16,7 +16,8 @@
           %label Duration:
           #{humanize_secs course.length}
       .col-md-3.col-md-offset-2.pull-right
-        = image_tag course.avatar.browse_thumb.url, class: "img-thumbnail"
+        = link_to course_section_video_path(course, first_section(course), first_video(course)) do
+          = image_tag course.avatar.browse_thumb.url, class: "img-thumbnail"
         %br/
         %b by
         = link_to course.tutor.name, tutor_path(course.tutor)

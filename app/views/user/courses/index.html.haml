@@ -2,20 +2,21 @@
 
 - unless @courses.nil?
   - @courses.each do |course|
-    .panel.panel-success.course-panel
-      .panel-body
-        %b= link_to course.title, course_section_video_path(course, first_section(course), first_video(course)), class: "course_panel_link"
-        %hr/
-        .col-md-10
-          = course.description
-          %br/
+    .col-md-8.course-panel
+      .col-md-7
+        .row
+          %b= link_to course.title, user_course_section_video_path(course, first_section(course), first_video(course)), class: "course_panel_link"
+        .row
+          %span{class: "details-text"}= course.description.truncate(200)
+        .row
           %label Level:
           #{course.level}
           %br/
           %label Duration:
           #{humanize_secs course.length}
-        .col-md-2
-          .pull-right
-            = image_tag course.avatar.url, class: "img-thumbnail"
-            %b by
-            = link_to course.tutor.name, user_tutor_path(course.tutor)
+      .col-md-3.col-md-offset-2.pull-right
+        = link_to user_course_section_video_path(course, first_section(course), first_video(course)) do
+          = image_tag course.avatar.browse_thumb.url, class: "img-thumbnail"
+        %br/
+        %b by
+        = link_to course.tutor.name, tutor_path(course.tutor)

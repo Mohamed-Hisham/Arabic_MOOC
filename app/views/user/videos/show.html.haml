@@ -1,25 +1,23 @@
-%h3 Course: #{@course.title} #{humanize_secs @course.length}
-by
-= link_to @course.tutor.name, user_tutor_path(@course.tutor)
-= link_to 'Back', user_courses_path
-= link_to 'Course Questions', user_course_questions_path(@course)
-= link_to 'New Question', new_user_course_question_path(@course)
-= @video.title
-= @video.number_of_views
-= link_to user_course_section_video_path(@course, @section, @video , format: 'pdf') do
-  %i.icon-file-alt
-  Export notes as PDF
-= form_tag user_course_section_video_complaints_path(@course, @section, @video), {id:"feedback-form", class: "form-horizontal"} do
-  = text_field_tag 'complaint[title]'
-  = text_field_tag 'complaint[description]'
-  = submit_tag "Send", class: "btn btn-primary"
+.cover-photo
+  .col-md-8.col-md-offset-2.video-header
+    %h3 #{@course.title} #{humanize_secs @course.length}
+    by
+    = link_to @course.tutor.name, user_tutor_path(@course.tutor)
+    = form_tag rate_course_user_course_section_video_path(@course, @section, @video), {id:"rate_course"} do
+      = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating pull-right" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
+  .col-md-2
+    = link_to 'Course Questions', user_course_questions_path(@course), class: "btn btn-warning"
+    %a{class: "btn btn-primary", href: '#feedback_modal', data: {toggle: "modal"}}
+      Feedback
 
-= form_tag rate_course_user_course_section_video_path(@course, @section, @video), {id:"rate_course"} do
-  = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
 .row
   .col-md-7
-    %video{:width => 320, :height => 240, :controls => true, id: "video_id"}
+    %video{:controls => true, id: "video_id"}
       %source{:src => @first_video.video_file.url}
+    = @video.title
+    .pull-right
+      Number of views
+      = @video.number_of_views
 
     -unless @sections.nil?
       - @sections.each do |section|
@@ -32,10 +30,15 @@ by
               - unless video.duration.nil?
                 %td
                   = humanize_secs video.duration
-  .col-md-5
+  .col-md-5.well
     %h3 Notes
-    %button{id:"add_note", class:"btn btn-success"}
+    %button{id:"add_note", class:"btn btn-success pull-right"}
       Add Note
+
+    = link_to user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "btn btn-info" do
+      %i{class: "fa fa-file-pdf-o"}
+      Export notes as PDF
+
     .well{id: "new_note", style: "display:none"}
       = form_for [:user, @course, @section, @video, @note] do |f|
         - if @note.errors.any?
@@ -44,11 +47,6 @@ by
             %ul
               - @note.errors.full_messages.each do |msg|
                 %li= msg
-
-        .form-group
-          = f.label "Note Title", class: "col-sm-2 control-label"
-          .col-sm-10
-            = f.text_field :title, class: "form-control", placeholder: "Note Title"
 
         .form-group
           = f.label "Note Description", class: "col-sm-2 control-label"
@@ -77,18 +75,11 @@ by
     - unless @notes.nil?
       - @notes.each do |note|
         %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
-          .panel-heading
-            %h3{class: "panel-title"}
-              - unless note.title.empty?
-                = note.title
-              - else
-                Note
-              = note_author(note)
+          .panel-body
+            = note.description
             - if note.author_id == current_user.id
               = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
                 %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
-          .panel-body
-            = note.description
             - unless note.attachment.url.nil?
               = link_to "Download File", note.attachment.url
             %div{class: "pull-right"}
@@ -97,6 +88,24 @@ by
 
     - else
       No notes!
+
+#feedback_modal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+        %h4.modal-title Feedback
+      .modal-body
+        = form_tag user_course_section_video_complaints_path(@course, @section, @video), {id:"feedback-form"} do
+          = text_field_tag 'complaint[title]','',{placeholder: "Title", class: "form-control"}
+          %br/
+          = text_area_tag 'complaint[description]','',{placeholder: "Feedback/ Complaint", class: "form-control"}
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        = submit_tag "Send", class: "btn btn-primary", id: "send_feedback"
+    / /.modal-content
+  / /.modal-dialog
+/ /.modal
 
 %footer
   :javascript
@@ -130,6 +139,10 @@ by
 
     $('#input-id').change(function() {
       $('form#rate_course').trigger('submit.rails');
+    });
+
+    $('#send_feedback').click(function() {
+      $('form#feedback-form').trigger('submit.rails');
     });
 
     $('.note_div').click(function (){
