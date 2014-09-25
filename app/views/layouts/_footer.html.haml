@@ -1,4 +1,0 @@
-- if (I18n.locale.to_sym == :ar)
-  = link_to 'English', url_for(request.parameters.merge(locale: 'en')), class: "btn btn-sm btn-danger pull-right"
-- else
-  = link_to 'ﻋﺮﺑﻰ', url_for(request.parameters.merge(locale: 'ar')), class: "btn btn-sm btn-danger pull-right"

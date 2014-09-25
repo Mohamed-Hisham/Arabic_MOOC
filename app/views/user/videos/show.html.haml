@@ -1,93 +1,97 @@
-.cover-photo
-  .col-md-8.col-md-offset-2.video-header
+.row
+  .col-md-8
     %h3 #{@course.title} #{humanize_secs @course.length}
     by
     = link_to @course.tutor.name, user_tutor_path(@course.tutor)
-    = form_tag rate_course_user_course_section_video_path(@course, @section, @video), {id:"rate_course"} do
-      = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating pull-right" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
-  .col-md-2
-    = link_to 'Course Questions', user_course_questions_path(@course), class: "btn btn-warning"
-    %a{class: "btn btn-primary", href: '#feedback_modal', data: {toggle: "modal"}}
-      Feedback
+    %br/
+    %span{class: "details-text"}= @course.description
+  .col-md-2.pull-right
+    = link_to user_course_questions_path(@course), class: "btn btn-warning" do
+      %i{class: "fa fa-stack-overflow"}
+      Course Questions
+    %div{id: "feedback"}
+      %a{class: "btn btn-primary", href: '#feedback_modal', data: {toggle: "modal"}}
+        Feedback
 
 .row
   .col-md-7
+    = form_tag rate_course_user_course_section_video_path(@course, @section, @video), {id:"rate_course"} do
+      = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
     %video{:controls => true, id: "video_id"}
       %source{:src => @first_video.video_file.url}
-    = @video.title
-    .pull-right
-      Number of views
-      = @video.number_of_views
+    %span{class: "h4-font"}= @video.title
+    %span{class: "h4-font pull-right views"} #{@video.number_of_views} views
 
-    -unless @sections.nil?
-      - @sections.each do |section|
-        %h4= section.title
-        - unless section.videos.nil?
-          - section.videos.each do |video|
-            %tr
-              %td
-                = link_to video.title, user_course_section_video_path(@course, section, video)
-              - unless video.duration.nil?
-                %td
-                  = humanize_secs video.duration
-  .col-md-5.well
-    %h3 Notes
-    %button{id:"add_note", class:"btn btn-success pull-right"}
-      Add Note
+    - unless @sections.nil?
+      %table{class: "table table-hover table-condensed"}
+        - @sections.each do |section|
+          %tr
+            %td{class: "section-title"}= section.title
+            %td{class: "section-title"}
+            - unless section.videos.nil?
+              - section.videos.each do |video|
+                %tr
+                  %td
+                    = link_to video.title, user_course_section_video_path(@course, section, video)
+                  - unless video.duration.nil?
+                    %td
+                      = humanize_secs video.duration
 
-    = link_to user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "btn btn-info" do
-      %i{class: "fa fa-file-pdf-o"}
-      Export notes as PDF
+  .col-md-5.well.note-well
+    .row
+      .col-md-6
+        %span{class: "h3-font"} Notes
+        %a{id:"add_note", class: "add-note"}
+          %i{class: "fa fa-pencil"}
+          Add Note
+      .col-md-4.pull-right
+        = link_to user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "pull-right export-button" do
+          %i{class: "fa fa-file-pdf-o"}
+          Export notes
+    .row
+      .well{id: "new_note", style: "display:none"}
+        = form_tag user_course_section_video_notes_path(@course, @section, @video), id: "new_note_form" do
+          .form-group
+            = text_field_tag 'note[description]', '', class: "form-control", placeholder: "Note Description"
 
-    .well{id: "new_note", style: "display:none"}
-      = form_for [:user, @course, @section, @video, @note] do |f|
-        - if @note.errors.any?
-          #error_explanation
-            %h2= "#{pluralize(@note.errors.count, "error")} prohibited this note from being saved:"
-            %ul
-              - @note.errors.full_messages.each do |msg|
-                %li= msg
+          .form-group
+            %label From
+            = hidden_field_tag 'note[from_min]'
+            = hidden_field_tag 'note[from_sec]'
+            .input-group.bootstrap-timepicker
+              %input{id: "timepickerFrom", name: "note_from",type: "text", class: "form-control", placeholder: "Click to select note start time"}
+              %div{class: "input-group-addon btn current_button div-clickable",id: "getCurrentTimeFrom"}
+                %i{class: "fa fa-clock-o fa-lg"}
+          .form-group
+            %label To
+            = hidden_field_tag 'note[to_min]'
+            = hidden_field_tag 'note[to_sec]'
+            .input-group.bootstrap-timepicker
+              %input{id: "timepickerTo", name: "note_to",type: "text", class: "form-control", placeholder: "Click to select note end time"}
+              %div{class: "input-group-addon btn current_button div-clickable",id: "getCurrentTimeTo"}
+                %i{class: "fa fa-clock-o fa-lg"}
 
-        .form-group
-          = f.label "Note Description", class: "col-sm-2 control-label"
-          .col-sm-10
-            = f.text_field :description, class: "form-control", placeholder: "Note Description"
+        .pull-right
+          %button{id:"cancel", class:"btn btn-sm"}
+            Cancel
+          = submit_tag 'Add', class: "btn btn-sm btn-success", id: "save_note"
 
-        .form-group
-          = f.label "From"
-          = text_field_tag :from_min, '',id: "from_min", placeholder: "00", style: "width:30px;"
-          \:
-          = text_field_tag :from_sec, '',id: "from_sec", placeholder: "00", style: "width:30px;"
-          = submit_tag "Current From", type: "button", id: "getCurrentTimeFrom"
+      - unless @notes.nil?
+        - @notes.each do |note|
+          %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
+            .panel-body
+              = note.description
+              - if note.author_id == current_user.id
+                = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
+                  %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
+              - unless note.attachment.url.nil?
+                = link_to "Download File", note.attachment.url
+              %div{class: "pull-right"}
+                %label From: #{humanize_secs note.synmarks.first.start_time}
+                %label To: #{humanize_secs note.synmarks.first.end_time}
 
-        .form-group
-          = f.label "To"
-          = text_field_tag :to_min, '',id: "to_min", placeholder: "00", style: "width:30px;"
-          \:
-          = text_field_tag :to_sec, '',id: "to_sec", placeholder: "00", style: "width:30px;"
-          = submit_tag "Current To", type: "button", id: "getCurrentTimeTo"
-
-        .form-group
-          = f.submit 'Save', class: "btn", id: "save_note"
-      %button{id:"cancel", class:"btn btn-success"}
-        Cancel
-
-    - unless @notes.nil?
-      - @notes.each do |note|
-        %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
-          .panel-body
-            = note.description
-            - if note.author_id == current_user.id
-              = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
-                %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
-            - unless note.attachment.url.nil?
-              = link_to "Download File", note.attachment.url
-            %div{class: "pull-right"}
-              %label From: #{humanize_secs note.synmarks.first.start_time}
-              %label To: #{humanize_secs note.synmarks.first.end_time}
-
-    - else
-      No notes!
+      - else
+        No notes!
 
 #feedback_modal.modal.fade
   .modal-dialog
@@ -116,6 +120,7 @@
     });
     $('#save_note').click(function (){
       document.getElementById('new_note').style.display="none";
+      $('form#new_note_form').trigger('submit.rails');
     });
     $('#cancel').click(function (){
       document.getElementById('new_note').style.display="none";
@@ -125,16 +130,24 @@
       var currentfrom = document.getElementById('video_id').currentTime
       var mins = Math.floor(currentfrom/60);
       var secs = Math.floor(currentfrom%60);
-      $('#from_min').val(mins);
-      $('#from_sec').val(secs);
+      $('#note_from_min').val(mins);
+      $('#note_from_sec').val(secs);
+      mins = mins < 10 ? '0' + mins : mins;
+      secs = secs < 10 ? '0' + secs : secs;
+      var time = mins.toString() + ":" + secs.toString();
+      $('#timepickerFrom').val(time);
     });
 
     $('#getCurrentTimeTo').click(function(){
-      var currentfrom = document.getElementById('video_id').currentTime
-      var mins = Math.floor(currentfrom/60);
-      var secs = Math.floor(currentfrom%60);
-      $('#to_min').val(mins);
-      $('#to_sec').val(secs);
+      var currentto = document.getElementById('video_id').currentTime
+      var mins_to = Math.floor(currentto/60);
+      var secs_to = Math.floor(currentto%60);
+      $('#note_to_min').val(mins_to);
+      $('#note_to_sec').val(secs_to);
+      mins_to = mins_to < 10 ? '0' + mins_to : mins_to;
+      secs_to = secs_to < 10 ? '0' + secs_to : secs_to;
+      var time_to = mins_to.toString() + ":" + secs_to.toString();
+      $('#timepickerTo').val(time_to);
     });
 
     $('#input-id').change(function() {
@@ -148,4 +161,32 @@
     $('.note_div').click(function (){
       var start_time = $(this).data('id');
       $('#video_id')[0].player.setCurrentTime(parseInt(start_time));
+    });
+
+    $('#timepickerFrom').change(function() {
+      var timefrom = $('#timepickerFrom').val();
+      var time_from_ar = timefrom.split(":",2);
+      $('#note_from_min').val(time_from_ar[0]);
+      $('#note_from_sec').val(time_from_ar[1]);
+    });
+
+    $('#timepickerTo').change(function() {
+      var timeto = $('#timepickerTo').val();
+      var time_to_ar = timeto.split(":",2);
+      $('#note_to_min').val(time_to_ar[0]);
+      $('#note_to_sec').val(time_to_ar[1]);
+    });
+
+    $('#timepickerFrom').timepicker({
+      showMeridian: false,
+      minuteStep: 1,
+      secondStep: 1,
+      showSeconds: true
+    });
+
+    $('#timepickerTo').timepicker({
+      showMeridian: false,
+      minuteStep: 1,
+      secondStep: 1,
+      showSeconds: true
     });

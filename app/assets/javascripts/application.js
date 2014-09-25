@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require moment
 //= require bootstrap-datetimepicker
+//= require bootstrap-timepicker
 //= require twitter/bootstrap
 //= require star-rating
 //= require mediaelement_rails

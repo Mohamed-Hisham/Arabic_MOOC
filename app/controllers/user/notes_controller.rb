@@ -39,8 +39,8 @@ class User::NotesController < UsersController
   end
 
   def synmark_time_attributes
-    @starttime = params[:from_min].to_i*60 + params[:from_sec].to_i
-    @endtime = params[:to_min].to_i*60 + params[:to_sec].to_i
+    @starttime = params[:note][:from_min].to_i*60 + params[:note][:from_sec].to_i
+    @endtime = params[:note][:to_min].to_i*60 + params[:note][:to_sec].to_i
 
     # return starttime, endtime
   end
