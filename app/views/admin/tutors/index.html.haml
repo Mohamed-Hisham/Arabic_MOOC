@@ -1,11 +1,11 @@
 %h1 List of tutors
 
 - unless @tutors.nil?
-  %table{class: "table-striped table-bordered"}
+  %table{class: "table table-hover table-condensed table-striped"}
     %tr
       %th Tutor Name
-      %th Edit?
-      %th Delete?
+      %th
+      %th
     - @tutors.each do |tutor|
       %tr
         %td= link_to tutor.user_name, admin_tutor_path(tutor)
