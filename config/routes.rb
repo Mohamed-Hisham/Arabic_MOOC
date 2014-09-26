@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  filter :locale,   :exclude => %r(^admins/)
+  filter :locale,   :exclude => /^\/users\/auth/
 
   # Guest
   resources :courses, only: :index, as: :courses, controller: "courses" do
