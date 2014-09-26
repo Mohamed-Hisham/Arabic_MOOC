@@ -1,6 +1,6 @@
 module NotesHelper
   def note_color(note)
-    panel_class = "panel panel-info" if note.author_type == "Tutor"
+    panel_class = "panel panel-danger" if note.author_type == "Tutor"
     panel_class = "panel panel-default" if note.author_type == "User"
 
     return panel_class

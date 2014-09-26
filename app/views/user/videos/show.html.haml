@@ -19,8 +19,9 @@
       = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
     %video{:controls => true, id: "video_id"}
       %source{:src => @first_video.video_file.url}
-    %span{class: "h4-font"}= @video.title
-    %span{class: "h4-font pull-right views"} #{@video.number_of_views} views
+    %div{class:"export-row"}
+      %span{class: "h4-font"}= @video.title
+      %span{class: "h4-font pull-right views"} #{@video.number_of_views} views
 
     - unless @sections.nil?
       %table{class: "table table-hover table-condensed"}
@@ -38,20 +39,24 @@
                       = humanize_secs video.duration
 
   .col-md-5.well.note-well
-    .row
+    .row.export-row
       .col-md-6
         %span{class: "h3-font"} Notes
         %a{id:"add_note", class: "add-note"}
           %i{class: "fa fa-pencil"}
           Add Note
       - unless @notes.empty?
-        .col-md-4.pull-right
-          = link_to user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "pull-right export-button" do
-            %i{class: "fa fa-file-pdf-o"}
-            Export All notes
-          = link_to export_tutor_user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "pull-right export-button" do
-            %i{class: "fa fa-file-pdf-o"}
-            Export Tutor notes
+        .col-md-4.pull-right.export
+          .dropdown.div-clickable.export_menu
+            %a{class: "dropdown-toggle", data:{toggle: "dropdown"}}
+              %i{class: "fa fa-file-pdf-o"}
+              Export Notes
+              %span{class:"caret"}
+            %ul{class: "dropdown-menu"}
+              %li
+                = link_to "All notes",user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "export-button", tabindex: "-1"
+              %li
+                = link_to "Tutor notes",export_tutor_user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "export-button", tabindex: "-1"
     .row
       .well{id: "new_note", style: "display:none"}
         = form_tag user_course_section_video_notes_path(@course, @section, @video), id: "new_note_form" do
@@ -84,6 +89,8 @@
         - @notes.each do |note|
           %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
             .panel-body
+              - if note.author_type == "Tutor"
+                %b By The Tutor:
               = note.description
               - if note.author_id == current_user.id
                 = link_to user_course_section_video_note_path(@course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do

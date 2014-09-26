@@ -1,14 +1,15 @@
 .container.well
   .col-md-2.answer-details
     .row
-      = image_tag question_user(@question).avatar.tutor_thumb.url, class: "img-circle"
+      .col-md-offset-3
+        = image_tag question_user(@question).avatar.tutor_thumb.url, class: "img-circle"
     .row
       By
       %label= question_user(@question).name
     .row
-      = @question.created_at
-    .row
       #{@question_upvotes} Votes up | #{@question_downvotes} Votes down
+    .row
+      = time_ago_in_words(@question.created_at)
   .col-md-10
     .row
       %span{class: "h4-font"}= @question.title
@@ -44,26 +45,29 @@
         .container.well
           .col-md-2.answer-details
             .row
-              = image_tag answerer(a).avatar.tutor_thumb.url, class: "img-circle"
+              .col-md-offset-3
+                = image_tag answerer(a).avatar.tutor_thumb.url, class: "img-circle"
             .row
               By
               %label= answerer(a).name
             .row
-              = a.created_at
-            .row
               #{count_answer_up(a)} Votes up | #{count_answer_down(a)} Votes down
+            .row
+              = time_ago_in_words(a.created_at)
           .col-md-10
-            = a.description
-            - unless answerer(a) == current_tutor
-              %div{class: "pull-right"}
-                = form_tag answer_vote_tutor_course_question_answer_path(@tutor, @course, @question, a), {class:"answer_vote_form"} do
-                  .ui-group-buttons
-                    = hidden_field_tag 'answer_vote', '',{class: "answer_vote"}
-                    %a{class:"#{check_tutor_up_vote_answer(a)} answer_vote_up", type:"submit", id: ""}
-                      %span{class:"fa fa-thumbs-o-up"}
-                    .or
-                    %a{class:"#{check_tutor_down_vote_answer(a)} answer_vote_down", type:"submit", id: ""}
-                      %span{class:"fa fa-thumbs-down"}
+            .col-md-10
+              = a.description
+            .col-md-2
+              - unless answerer(a) == current_tutor
+                %div{class: "pull-right vote-answer"}
+                  = form_tag answer_vote_tutor_course_question_answer_path(@tutor, @course, @question, a), {class:"answer_vote_form"} do
+                    .ui-group-buttons
+                      = hidden_field_tag 'answer_vote', '',{class: "answer_vote"}
+                      %a{class:"#{check_tutor_up_vote_answer(a)} answer_vote_up", type:"submit", id: ""}
+                        %span{class:"fa fa-thumbs-o-up"}
+                      .or
+                      %a{class:"#{check_tutor_down_vote_answer(a)} answer_vote_down", type:"submit", id: ""}
+                        %span{class:"fa fa-thumbs-down"}
 
 
 

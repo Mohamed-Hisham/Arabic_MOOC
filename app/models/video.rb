@@ -14,7 +14,7 @@ class Video
   has_many :notes
 
   # Validations
-  validates_presence_of :title
+  validates_presence_of :title, :video_file
 
   # Functions
   def viewed_by_guest_status(param)

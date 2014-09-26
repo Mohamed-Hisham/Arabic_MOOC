@@ -20,7 +20,7 @@ module ApplicationHelper
     return dir
   end
 
-  def humanize_secs secs
+  def humanize_all_secs secs
     [[60, :s], [60, :m], [24, :hr]].inject([]){ |s, (count, name)|
       if secs > 0
         secs, n = secs.divmod(count)
@@ -28,6 +28,16 @@ module ApplicationHelper
       end
       s
     }.join(' ')
+  end
+
+  def humanize_secs secs
+    secs = humanize_all_secs secs
+    if secs.empty?
+      sec_string = "0s"
+    else
+      sec_string = secs
+    end
+    return sec_string
   end
 
   def check_home
