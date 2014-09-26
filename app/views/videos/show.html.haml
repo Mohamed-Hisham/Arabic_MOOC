@@ -1,15 +1,23 @@
-%h3 Course: #{@course.title} #{humanize_secs @course.length} by
-= link_to @course.tutor.name, tutor_path(@course.tutor)
-= link_to 'Back', user_courses_path
+.row
+  .col-md-8
+    %h3 Course: #{@course.title} #{humanize_secs @course.length}
+    by
+    = link_to @course.tutor.name, tutor_path(@course.tutor)
+    %br/
+    %span{class: "details-text"}= @course.description
 .row
   .col-md-7
-    %video{:width => 320, :height => 240, :controls => true, id: "video_id"}
+    %video{:controls => true, id: "video_id"}
       %source{:src => @first_video.video_file.url}
+    %span{class: "h4-font"}= @video.title
+    %span{class: "h4-font pull-right views"} #{@video.number_of_views} views
 
     -unless @sections.nil?
-      %table{class:"table table-condensed table-hover table-striped"}
+      %table{class:"table table-condensed"}
         - @sections.each do |section|
-          %h4= section.title
+          %tr
+            %td{class: "section-title"}= section.title
+            %td{class: "section-title"}
           - unless section.videos.nil?
             - section.videos.each do |video|
               %tr
@@ -21,21 +29,17 @@
                 - unless video.duration.nil?
                   %td
                     = humanize_secs video.duration
-  .col-md-5
-    %h3 Notes
+  .col-md-5.well
+    %span{class: "h3-font"} Notes
     - unless @notes.nil?
       - @notes.each do |note|
-        %div{class: note_color(note)}
-          .panel-heading
-            %h3{class: "panel-title"}
-              - unless note.title.empty?
-                = note.title
-              - else
-                Note
+        %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
           .panel-body
             = note.description
-            %label From: #{humanize_secs note.synmarks.first.start_time}
-            %label To: #{humanize_secs note.synmarks.first.end_time}
+            %div{class: "pull-right"}
+              %label From: #{humanize_secs note.synmarks.first.start_time}
+              %label To: #{humanize_secs note.synmarks.first.end_time}
+
 
     - else
       No notes!
@@ -44,3 +48,8 @@
   :javascript
     // using jQuery
     $('#video_id').mediaelementplayer(/* Options */);
+
+    $('.note_div').click(function (){
+      var start_time = $(this).data('id');
+      $('#video_id')[0].player.setCurrentTime(parseInt(start_time));
+    });
