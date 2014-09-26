@@ -37,7 +37,9 @@ Rails.application.routes.draw do
   resources :admins, only: :show
   namespace :admin do
     resources :courses do
-      resources :questions, only: :destroy
+      resources :questions, only: :destroy do
+        resources :answers, only: [:index, :destroy]
+      end
       resources :sections do
         resources :videos do
           member do

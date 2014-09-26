@@ -66,10 +66,10 @@
   - unless @questions.nil?
     - @questions.each do |q|
       %tr
-        %td= q.title
+        %td= link_to q.title, admin_course_question_answers_path(@course, q)
         %td= q.description
-        %td= question_up_votes(q)
-        %td= question_down_votes(q)
+        %td= up_votes(q)
+        %td= down_votes(q)
         %td= q.answers.count
 
 %h2 Questions to be deleted

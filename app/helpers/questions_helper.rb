@@ -95,11 +95,11 @@ module QuestionsHelper
     return vote_class
   end
 
-  def question_up_votes(q)
+  def up_votes(q)
     q.votes.where(status: 1).count
   end
 
-  def question_down_votes(q)
+  def down_votes(q)
     q.votes.where(status: -1).count
   end
 end

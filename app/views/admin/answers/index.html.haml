@@ -1,0 +1,18 @@
+%h3 Question: #{@question.title}
+
+%h4 Answers
+- unless @answers.nil?
+  %table{class: "table table-condensed table-hover table-striped"}
+    %tr
+      %th Description
+      %th # of votes up
+      %th # of votes down
+      %th Overall Votes
+      %th
+      - @answers.each do |a|
+        %tr
+          %td= a.description
+          %td= up_votes(a)
+          %td= down_votes(a)
+          %td= a.overall_votes
+          %td= link_to "Delete", admin_course_question_answer_path(@course, @question, a), data: {confirm: "Are you sure?"}, method: :delete
