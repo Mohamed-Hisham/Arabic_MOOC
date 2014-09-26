@@ -76,6 +76,9 @@ Rails.application.routes.draw do
       end
       resources :sections do
         resources :videos do
+          member do
+            get 'export_tutor'
+          end
           resources :complaints, only: [:new, :create]
           member do
             post 'rate_course'

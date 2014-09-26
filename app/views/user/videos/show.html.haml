@@ -44,10 +44,14 @@
         %a{id:"add_note", class: "add-note"}
           %i{class: "fa fa-pencil"}
           Add Note
-      .col-md-4.pull-right
-        = link_to user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "pull-right export-button" do
-          %i{class: "fa fa-file-pdf-o"}
-          Export notes
+      - unless @notes.empty?
+        .col-md-4.pull-right
+          = link_to user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "pull-right export-button" do
+            %i{class: "fa fa-file-pdf-o"}
+            Export All notes
+          = link_to export_tutor_user_course_section_video_path(@course, @section, @video , format: 'pdf'), class: "pull-right export-button" do
+            %i{class: "fa fa-file-pdf-o"}
+            Export Tutor notes
     .row
       .well{id: "new_note", style: "display:none"}
         = form_tag user_course_section_video_notes_path(@course, @section, @video), id: "new_note_form" do

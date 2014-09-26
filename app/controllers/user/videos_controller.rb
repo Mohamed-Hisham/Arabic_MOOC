@@ -16,6 +16,10 @@ class User::VideosController < UsersController
     check_view_token
   end
 
+  def export_tutor
+    @tutor_notes = @video.notes.where(author: @course.tutor).to_a
+  end
+
   def rate_course
     @course.rate_number(params[:rating_number], current_user)
     respond_to do |format|

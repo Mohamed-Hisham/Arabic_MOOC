@@ -1,7 +1,7 @@
 .container.well
-  .col-md-2
+  .col-md-2.answer-details
     .row
-      = image_tag question_user(@question).avatar.url
+      = image_tag question_user(@question).avatar.tutor_thumb.url, class: "img-circle"
     .row
       By
       %label= question_user(@question).name
@@ -10,57 +10,63 @@
     .row
       #{@question_upvotes} Votes up | #{@question_downvotes} Votes down
   .col-md-10
-    .panel.panel-default
-      .panel-heading
-        = @question.title
-      .panel-body
-        = @question.description
-    %div{class: "pull-right"}
-      = form_tag question_vote_tutor_course_question_path(@tutor, @course, @question), {id:"vote_form"} do
-        .ui-group-buttons
-          = hidden_field_tag 'question_vote'
-          %a{class:"#{check_tutor_up_vote(@question)}", type:"submit", id: "question_vote_up"}
-            %span{class:"fa fa-thumbs-o-up"}
-          .or
-          %a{class:"#{check_tutor_down_vote(@question)}", type:"submit", id: "question_vote_down"}
-            %span{class:"fa fa-thumbs-down"}
+    .row
+      %span{class: "h4-font"}= @question.title
+      %div{class: "pull-right vote-question"}
+        = form_tag question_vote_tutor_course_question_path(@tutor, @course, @question), {id:"vote_form"} do
+          .ui-group-buttons
+            = hidden_field_tag 'question_vote'
+            %a{class:"#{check_tutor_up_vote(@question)}", type:"submit", id: "question_vote_up"}
+              %span{class:"fa fa-thumbs-o-up"}
+            .or
+            %a{class:"#{check_tutor_down_vote(@question)}", type:"submit", id: "question_vote_down"}
+              %span{class:"fa fa-thumbs-down"}
+    .row
+      .panel.panel-default
+        .panel-body
+          = @question.description
+.container
+  .row
+    = form_tag tutor_course_question_answers_path(@tutor,@course, @question) do
+      .container
+        .col-md-10
+          %span{class: "h3-font"} Your Answer
+          = text_area_tag 'answer[description]', '', class: "form-control"
+        .col-md-2
+          = submit_tag "Create Answer", {class: "btn btn-primary answer-button"}
+
+%hr/
+.container
+  .row
+    %h3 Answers
+    - unless @answers.nil?
+      - @answers.each do |a|
+        .container.well
+          .col-md-2.answer-details
+            .row
+              = image_tag answerer(a).avatar.tutor_thumb.url, class: "img-circle"
+            .row
+              By
+              %label= answerer(a).name
+            .row
+              = a.created_at
+            .row
+              #{count_answer_up(a)} Votes up | #{count_answer_down(a)} Votes down
+          .col-md-10
+            = a.description
+            - unless answerer(a) == current_tutor
+              %div{class: "pull-right"}
+                = form_tag answer_vote_tutor_course_question_answer_path(@tutor, @course, @question, a), {class:"answer_vote_form"} do
+                  .ui-group-buttons
+                    = hidden_field_tag 'answer_vote', '',{class: "answer_vote"}
+                    %a{class:"#{check_tutor_up_vote_answer(a)} answer_vote_up", type:"submit", id: ""}
+                      %span{class:"fa fa-thumbs-o-up"}
+                    .or
+                    %a{class:"#{check_tutor_down_vote_answer(a)} answer_vote_down", type:"submit", id: ""}
+                      %span{class:"fa fa-thumbs-down"}
 
 
-= link_to 'Back', tutor_course_questions_path(@tutor, @course)
 
-
-%h3 Answers
-- unless @answers.nil?
-  - @answers.each do |a|
-    .container.well
-      .col-md-2
-        .row
-          = image_tag answerer(a).avatar.url
-        .row
-          By
-          %label= answerer(a).name
-        .row
-          = a.created_at
-        .row
-          #{count_answer_up(a)} Votes up | #{count_answer_down(a)} Votes down
-      .col-md-10
-        %label= a.description
-        - unless answerer(a) == current_tutor
-          %div{class: "pull-right"}
-            = form_tag answer_vote_tutor_course_question_answer_path(@tutor, @course, @question, a), {class:"answer_vote_form"} do
-              .ui-group-buttons
-                = hidden_field_tag 'answer_vote', '',{class: "answer_vote"}
-                %a{class:"#{check_tutor_up_vote_answer(a)} answer_vote_up", type:"submit", id: ""}
-                  %span{class:"fa fa-thumbs-o-up"}
-                .or
-                %a{class:"#{check_tutor_down_vote_answer(a)} answer_vote_down", type:"submit", id: ""}
-                  %span{class:"fa fa-thumbs-down"}
-
-
-
-= form_tag tutor_course_question_answers_path(@tutor,@course, @question) do
-  = text_area_tag 'answer[description]'
-  = submit_tag "Create Answer"
 
 %footer
   :javascript
