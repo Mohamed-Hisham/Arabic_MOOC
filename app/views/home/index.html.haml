@@ -11,7 +11,7 @@
         %li ask questions and get the best answer (Stackoverflow)
     .col-md-6
       %video{:width => 500, :height => 400, :controls => true, id: "video_id"}
-        %source{:src => "/vendor/assets/ETRG.mp4"}
+        %source{:src => "/assets/ETRG.mp4"}
 
 .row
   .col-md-12.col-lg-12
@@ -41,3 +41,7 @@
           Length: #{humanize_secs c.length}
           %br/
           Level: #{c.level}
+%footer
+  :javascript
+    // using jQuery
+    $('#video_id').mediaelementplayer(/* Options */);
