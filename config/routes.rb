@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       end
       resources :sections do
         resources :videos, controller: "tutors/videos" do
-          resources :notes, controller: "tutors/notes" do
+          resources :notes, controller: "tutors/notes", only: [:create, :destroy] do
             resources :synmarks, only: :new
           end
         end

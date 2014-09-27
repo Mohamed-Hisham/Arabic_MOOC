@@ -1,10 +1,22 @@
 .row
   .col-md-8
-    %h3 #{@course.title} #{humanize_secs @course.length}
-    by
-    = link_to @course.tutor.name, user_tutor_path(@course.tutor)
+    %h3 #{@course.title}
+    %span{class: "details-text"}
+      %i{class: "fa fa-user"}
+      By
+      = link_to @course.tutor.name, user_tutor_path(@course.tutor)
     %br/
-    %span{class: "details-text"}= @course.description
+    %span{class: "details-text"}
+      %i{class: "fa fa-clock-o"}
+      #{humanize_secs @course.length}
+    %br/
+    %span{class: "details-text"}
+      %i{class: "fa fa-calendar-o"}
+      #{time_ago_in_words(@course.created_at)}
+    %br/
+    %span{class: "details-text"}
+      %i{class: "fa fa-pencil-square-o"}
+      #{@course.description}
   .col-md-2.pull-right
     = link_to user_course_questions_path(@course), class: "btn btn-warning" do
       %i{class: "fa fa-stack-overflow"}
@@ -17,8 +29,8 @@
   .col-md-7
     = form_tag rate_course_user_course_section_video_path(@course, @section, @video), {id:"rate_course"} do
       = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @course.unweighted_rating, data:{size:"xs"}}
-    %video{:controls => true, id: "video_id"}
-      %source{:src => @first_video.video_file.url}
+    %video{width:640, height:400,:controls => true, id: "video_id"}
+      %source{:src => @video.video_file.url}
     %div{class:"export-row"}
       %span{class: "h4-font"}= @video.title
       %span{class: "h4-font pull-right views"} #{@video.number_of_views} views

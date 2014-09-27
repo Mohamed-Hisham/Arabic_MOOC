@@ -1,6 +1,6 @@
 jQuery ->
   $("a[rel~=popover], .has-popover").popover()
-  $("a[rel~=tooltip], .has-tooltip").tooltip()
+  $("[data-toggle~=\"tooltip\"]").tooltip()
   $("#input-id").rating()
   $("#datetimepicker").datetimepicker
     pickTime: false
@@ -13,7 +13,7 @@ jQuery ->
 
   ), 3000
 
-  # Override Rails handling of confirmation
+# Override Rails handling of confirmation
 
 $.rails.allowAction = (element) ->
  # The message is something like "Are you sure?"

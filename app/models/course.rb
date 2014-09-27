@@ -1,5 +1,6 @@
 class Course
   include Mongoid::Document
+  include Mongoid::Timestamps
   include Mongoid::Enum
 
   after_find :calculate_length

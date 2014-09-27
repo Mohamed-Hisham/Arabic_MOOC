@@ -176,8 +176,12 @@
                 css = (self.rtl) ? 'rating-container-rtl' : 'rating-container',
                 stars = self.getStars();
             css += (self.glyphicon) ? ((self.symbol == '\ue006') ? ' rating-gly-star' : ' rating-gly') : ' rating-uni';
+            css += " has-tooltip"
             self.$rating.attr('class', css);
             self.$rating.attr('data-content', stars);
+            self.$rating.attr('data-toggle', "tooltip");
+            self.$rating.attr('data-placement', "right");
+            self.$rating.attr('title', "Rate it!");
             self.$stars.attr('data-content', stars);
             var css = self.rtl ? 'star-rating-rtl' : 'star-rating';
             self.$container.attr('class', css + ' rating-' + self.size);
@@ -358,7 +362,7 @@
         rtl: false,
         size: 'md',
         showClear: false,
-        showCaption: true,
+        showCaption: false,
         defaultCaption: '{rating} Stars',
         starCaptions: {
             0.5: 'Half Star',
@@ -403,7 +407,7 @@
      */
     $('input.rating').addClass('rating-loading');
 
-    $(document).ready(function () {
+    $(document).on("ready page:load", function () {
         var $input = $('input.rating'), count = Object.keys($input).length;
         if (count > 0) {
             $input.rating();

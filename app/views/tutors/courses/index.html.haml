@@ -1,9 +1,24 @@
 %h3 My Courses
 
 - unless @courses.nil?
-  %table{class: "table table-hover table-condesed table-striped"}
-    - @courses.each do |c|
-      %td= image_tag c.avatar
-      %td= link_to c.title, tutor_course_section_video_path(@tutor, c, first_section(c), first_video(c))
+  - @courses.each do |c|
+    .col-md-8.course-panel
+      .col-md-7
+        .row
+          %b= link_to c.title, tutor_course_section_video_path(@tutor, c, first_section(c), first_video(c)), class: "course_panel_link"
+        .row
+          %span{class: "details-text"}
+            %i{class: "fa fa-clock-o"}
+            #{humanize_secs c.length}
+        .row
+          %label Level:
+          #{c.level}
+          %br/
+          %span{class: "details-text"}
+            %i{class: "fa fa-pencil-square-o"}
+            #{c.description.truncate(200)}
+      .col-md-3.col-md-offset-2.pull-right
+        = link_to tutor_course_section_video_path(@tutor, c, first_section(c), first_video(c)) do
+          = image_tag c.avatar.browse_thumb.url, class: "img-thumbnail"
 - else
   You don't have any courses! :(

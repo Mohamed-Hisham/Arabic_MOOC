@@ -31,7 +31,6 @@ class User::NotesController < UsersController
       if @note.save
         synmark_time_attributes
         @synmark = @note.synmarks.create(start_time: @starttime, end_time: @endtime)
-        byebug
         format.html { redirect_to user_course_section_video_path(@course, @section, @video), notice: 'Note was successfully created.' }
       else
         format.html { redirect_to user_course_section_video_path(@course, @section, @video), alert: "Note was not created. Check again" }
@@ -40,11 +39,8 @@ class User::NotesController < UsersController
   end
 
   def synmark_time_attributes
-    byebug
     @starttime = params[:note][:from_min].to_i*60 + params[:note][:from_sec].to_i
     @endtime = params[:note][:to_min].to_i*60 + params[:note][:to_sec].to_i
-    byebug
-    puts "asd"
 
     # return starttime, endtime
   end
