@@ -1,24 +1,24 @@
 .row
   .col-md-8
     %h3 #{@course.title}
-    %span{class: "details-text"}
-      %i{class: "fa fa-clock-o"}
-      #{humanize_secs @course.length}
-    %br/
-    %span{class: "details-text"}
-      %i{class: "fa fa-calendar-o"}
-      #{time_ago_in_words(@course.created_at)}
-    %br/
+    .row
+      .col-md-2
+        %span{class: "details-text"}
+          %i{class: "fa fa-clock-o"}
+          #{humanize_secs @course.length}
+      .col-md-2
+        %span{class: "details-text"}
+          %i{class: "fa fa-calendar-o"}
+          #{time_ago_in_words(@course.created_at)}
+
     %span{class: "details-text"}
       %i{class: "fa fa-pencil-square-o"}
       #{@course.description}
   .col-md-2.pull-right
     = link_to tutor_course_questions_path(@tutor, @course), class: "btn btn-warning" do
-      %i{class: "fa fa-stack-overflow"}
+      %i{class: "fa fa-stack-overflow fa-lg"}
       Course Questions
-    -# %div{id: "feedback"}
-    -#   %a{class: "btn btn-primary", href: '#feedback_modal', data: {toggle: "modal"}}
-    -#     Feedback
+
 .row
   .col-md-7
     = text_field_tag :rating_number, '',{id: "input-id", type: "number", class:"rating" , min: "0", max: "5", step: "0.5", value: @tutor.unweighted_rating, data:{size:"xs", readonly: "true"}}
@@ -51,26 +51,30 @@
           Add Note
     .row
       .well{id: "new_note", style: "display:none"}
-        = form_tag tutor_course_section_video_notes_path(@tutor, @course, @section, @video), method: :post, id: "new_note_form" do
+        = form_tag tutor_course_section_video_notes_path(@tutor, @course, @section, @video), method: :post, id: "new_note_form", multipart: true do
           .form-group
-            = text_field_tag 'note[description]', '', class: "form-control", placeholder: "Note Description"
+            = text_field_tag 'note[description]', '', class: "input-sm form-control", placeholder: "Note Description"
 
           .form-group
-            %label From
+            %b From
             = hidden_field_tag 'note[from_min]'
             = hidden_field_tag 'note[from_sec]'
             .input-group.bootstrap-timepicker
-              %input{id: "timepickerFrom", name: "note_from",type: "text", class: "form-control", placeholder: "Click to select note start time"}
-              %div{class: "input-group-addon btn current_button div-clickable",id: "getCurrentTimeFrom"}
+              %input{id: "timepickerFrom", name: "note_from",type: "text", class: "input-sm form-control", placeholder: "Click to select note start time"}
+              %div{class: "input-group-addon btn btn-xs current_button div-clickable",id: "getCurrentTimeFrom", style: "padding: 6px 13px;"}
                 %i{class: "fa fa-clock-o fa-lg"}
           .form-group
-            %label To
+            %b To
             = hidden_field_tag 'note[to_min]'
             = hidden_field_tag 'note[to_sec]'
             .input-group.bootstrap-timepicker
-              %input{id: "timepickerTo", name: "note_to",type: "text", class: "form-control", placeholder: "Click to select note end time"}
-              %div{class: "input-group-addon btn current_button div-clickable",id: "getCurrentTimeTo"}
+              %input{id: "timepickerTo", name: "note_to",type: "text", class: "input-sm form-control", placeholder: "Click to select note end time"}
+              %div{class: "input-group-addon btn btn-xs current_button div-clickable",id: "getCurrentTimeTo", style: "padding: 6px 13px;"}
                 %i{class: "fa fa-clock-o fa-lg"}
+          .form-group
+            %span{class: "h6-font"}
+              %b Note Attachement:
+              = file_field_tag 'note[attachment]', class: "filestyle", data: {buttonName: "btn-primary", buttonText: "Upload"}, accept: 'application/pdf'
 
         .pull-right
           %button{id:"cancel", class:"btn btn-sm"}
@@ -82,6 +86,20 @@
         %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
           .panel-body
             = note.description
+            - unless note.attachment.url.nil?
+              %a{href: '#preview_modal', data: {toggle: "modal"}}
+                = image_tag note.attachment.thumb.url
+              #preview_modal.modal.fade
+                .modal-dialog.modal-lg
+                  .modal-content
+                    .modal-body.modal-body-lg
+                      %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+                      %a{class: "btn btn-primary export-row", href: note.attachment.url, download:""}
+                        Download File
+                      %iframe{id: "note_preview", src: note.attachment.url, width:"99.6%", height:"80%", frameborder:"0"}
+                  / /.modal-content
+                / /.modal-dialog
+              / /.modal
             - if note.author_id == current_tutor.id
               = link_to tutor_course_section_video_note_path(@tutor, @course,@section, @video, note), :method => :delete, :data => { :confirm => "Delete?" } do
                 %i{class: "fa fa-trash-o pull-right", style: "color:red;"}
@@ -91,6 +109,7 @@
 
     - else
       No notes!
+
 
 %footer
   :javascript

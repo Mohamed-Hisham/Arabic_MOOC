@@ -17,6 +17,7 @@
 //= require bootstrap-timepicker
 //= require twitter/bootstrap
 //= require star-rating
+//= require bootstrap-filestyle
 //= require mediaelement_rails
 //= require turbolinks
 //= require_tree .

@@ -18,6 +18,7 @@ class Tutors::NotesController < TutorsController
 
   def create
     @note = @video.notes.new(note_params)
+
     @note.author = current_tutor
     @note.author_type = "Tutor"
 
@@ -33,8 +34,8 @@ class Tutors::NotesController < TutorsController
   end
 
   def synmark_time_attributes
-    @starttime = params[:from_min].to_i*60 + params[:from_sec].to_i
-    @endtime = params[:to_min].to_i*60 + params[:to_sec].to_i
+    @starttime = params[:note][:from_min].to_i*60 + params[:note][:from_sec].to_i
+    @endtime = params[:note][:to_min].to_i*60 + params[:note][:to_sec].to_i
   end
 
   def update

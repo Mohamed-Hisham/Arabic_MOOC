@@ -1,10 +1,23 @@
 .row
-  .col-md-8
-    %h3 Course: #{@course.title} #{humanize_secs @course.length}
-    by
-    = link_to @course.tutor.name, tutor_path(@course.tutor)
-    %br/
-    %span{class: "details-text"}= @course.description
+  .col-md-12
+    %h3 #{@course.title}
+    .row
+      .col-md-2
+        %span{class: "details-text"}
+          %i{class: "fa fa-user"}
+          By
+          = link_to @course.tutor.name, tutor_path(@course.tutor)
+      .col-md-2
+        %span{class: "details-text"}
+          %i{class: "fa fa-clock-o"}
+          #{humanize_secs @course.length}
+      .col-md-2
+        %span{class: "details-text"}
+          %i{class: "fa fa-calendar-o"}
+          #{time_ago_in_words(@course.created_at)}
+    %span{class: "details-text"}
+      %i{class: "fa fa-pencil-square-o"}
+      #{@course.description}
 .row
   .col-md-7
     %video{:controls => true, id: "video_id"}
@@ -30,7 +43,7 @@
                   %td
                     = humanize_secs video.duration
   .col-md-5.well
-    %span{class: "h3-font"} Notes
+    %span{class: "h4-font"} Notes
     - unless @notes.nil?
       - @notes.each do |note|
         %div{id: note.id, class: "#{note_color(note)} note_div div-clickable", data: {id: note.synmarks.first.start_time}}
